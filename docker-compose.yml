@@ -1,0 +1,67 @@
+name: crypto_monitoring
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env
+
+  postgres:
+    container_name: postgres_db
+    image: postgres:14.18
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+  mongo:
+    container_name: mongo_db
+    image: mongo:6.0.25-rc0-jammy
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+
+  data_generator_service:
+    container_name: data_generator_service
+    build:
+      context: ./src/CryptoMonitoring.DataGenerator
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+  
+  data_processor_service:
+    container_name: data_processor_service
+    build:
+      context: ./src/CryptoMonitoring.DataProcessor
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+  
+  notification_service:
+    container_name: notification_service
+    build:
+      context: ./src/CryptoMonitoring.NotificationService
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    env_file:
+      - .env
+
+  report_generator_service:
+    container_name: report_generator_service
+    build:
+      context: ./src/CryptoMonitoring.ReportGenerator
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    env_file:
+      - .env
