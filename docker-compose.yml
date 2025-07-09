@@ -26,6 +26,14 @@ services:
     env_file:
       - .env
 
+  redis:
+    container_name: redis
+    image: redis:8.2-rc1
+    ports:
+      - "6379:6379"
+    env_file:
+      - .env
+
   data_generator_service:
     container_name: data_generator_service
     build:
