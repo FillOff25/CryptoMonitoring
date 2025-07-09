@@ -1,38 +1,46 @@
-name: crypto_monitoring
-
 services:
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:4-management-alpine
+    image: rabbitmq:4-management
     ports:
       - "5672:5672"
       - "15672:15672"
-    env_file:
-      - .env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   postgres:
-    container_name: postgres_db
-    image: postgres:14.18
+    container_name: postgres
+    image: postgres:17
     ports:
       - "5432:5432"
-    env_file:
-      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   mongo:
-    container_name: mongo_db
-    image: mongo:6.0.25-rc0-jammy
+    container_name: mongo
+    image: mongo:7.0
     ports:
       - "27017:27017"
-    env_file:
-      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
 
   redis:
     container_name: redis
     image: redis:8.2-rc1
     ports:
       - "6379:6379"
-    env_file:
-      - .env
+    volumes:
+      - redis_data:/data
 
   data_generator_service:
     container_name: data_generator_service
@@ -41,9 +49,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    env_file:
-      - .env
-  
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+
   data_processor_service:
     container_name: data_processor_service
     build:
@@ -51,9 +59,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8080"
-    env_file:
-      - .env
-  
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+
   notification_service:
     container_name: notification_service
     build:
@@ -61,8 +69,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8082:8080"
-    env_file:
-      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
   report_generator_service:
     container_name: report_generator_service
@@ -71,5 +79,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8083:8080"
-    env_file:
-      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+
+volumes:
+  postgres_data:
+  mongo_data:
+  redis_data:
+  rabbitmq_data:
