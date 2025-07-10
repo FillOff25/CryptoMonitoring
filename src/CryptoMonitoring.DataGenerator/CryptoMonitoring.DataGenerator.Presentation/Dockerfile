@@ -1,16 +1,24 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["CryptoMonitoring.DataGenerator.Business/CryptoMonitoring.DataGenerator.Business.csproj", "CryptoMonitoring.DataGenerator.Business/"]
-COPY ["CryptoMonitoring.DataGenerator.DataAccess/CryptoMonitoring.DataGenerator.DataAccess.csproj", "CryptoMonitoring.DataGenerator.DataAccess/"]
-COPY ["CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj", "CryptoMonitoring.DataGenerator.Presentation/"]
-RUN dotnet restore "./CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj"
 
-COPY . ./
-RUN dotnet publish "./CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj" -c Release -o /app/publish
+COPY ["src/CryptoMonitoring.Models/CryptoMonitoring.Models.csproj", "src/CryptoMonitoring.Models/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/CryptoMonitoring.DataGenerator.Business.csproj", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/CryptoMonitoring.DataGenerator.DataAccess.csproj", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/"]
+RUN dotnet restore "./src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj"
+
+COPY ["src/CryptoMonitoring.Models/", "src/CryptoMonitoring.Models/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/"]
+COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/"]
+
+RUN dotnet publish "./src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/CryptoMonitoring.DataGenerator.Presentation.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+
 COPY --from=build /app/publish .
+COPY .env .env
 
 ENTRYPOINT ["dotnet", "CryptoMonitoring.DataGenerator.Presentation.dll"]

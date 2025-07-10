@@ -47,8 +47,8 @@ services:
   data_generator_service:
     container_name: data_generator_service
     build:
-      context: ./src/CryptoMonitoring.DataGenerator
-      dockerfile: /CryptoMonitoring.DataGenerator.Presentation/Dockerfile
+      context: .
+      dockerfile: src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Presentation/Dockerfile
     ports:
       - "8080:8080"
     environment:

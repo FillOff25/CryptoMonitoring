@@ -8,6 +8,4 @@ public class CryptoCurrency
     public int Rank { get; set; }
     public decimal Supply { get; set; }
     public decimal? MaxSupply { get; set; }
-
-    public List<Market> Markets { get; set; } = [];
 }
