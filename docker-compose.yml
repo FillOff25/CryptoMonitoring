@@ -1,3 +1,5 @@
+name: crypto_monitoring
+
 services:
   rabbitmq:
     container_name: rabbitmq
@@ -46,7 +48,7 @@ services:
     container_name: data_generator_service
     build:
       context: ./src/CryptoMonitoring.DataGenerator
-      dockerfile: Dockerfile
+      dockerfile: /CryptoMonitoring.DataGenerator.Presentation/Dockerfile
     ports:
       - "8080:8080"
     environment:
