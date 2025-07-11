@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-
 COPY ["src/CryptoMonitoring.Models/CryptoMonitoring.Models.csproj", "src/CryptoMonitoring.Models/"]
 COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/CryptoMonitoring.DataGenerator.Business.csproj", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.Business/"]
 COPY ["src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/CryptoMonitoring.DataGenerator.DataAccess.csproj", "src/CryptoMonitoring.DataGenerator/CryptoMonitoring.DataGenerator.DataAccess/"]

@@ -14,12 +14,12 @@ public class TechnicalIndicatorConfiguration : IEntityTypeConfiguration<Technica
 
         builder.Property(ti => ti.Id)
             .HasColumnName("id")
-            .HasColumnType("uuid)")
+            .HasColumnType("uuid")
             .IsRequired();
 
         builder.Property(ti => ti.Timestamp)
             .HasColumnName("timestamp")
-            .HasColumnType("time with time zone");
+            .HasColumnType("timestamp with time zone");
 
         builder.Property(ti => ti.IndicatorType)
             .HasColumnName("indicator_type")

@@ -1,4 +1,7 @@
+using CryptoMonitoring.DataGenerator.DataAccess;
 using CryptoMonitoring.DataGenerator.Presentation.Extensions;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+using var scope = app.Services.CreateScope();
+await using var dbContext = scope.ServiceProvider.GetRequiredService<CryptoMonitoringDataDbContext>();
+await dbContext.Database.MigrateAsync();
 
 app.UseHttpsRedirection();
 

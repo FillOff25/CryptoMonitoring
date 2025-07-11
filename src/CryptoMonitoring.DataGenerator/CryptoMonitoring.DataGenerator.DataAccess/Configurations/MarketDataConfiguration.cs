@@ -18,7 +18,7 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
 
         builder.Property(md => md.Timestamp)
             .HasColumnName("timestamp")
-            .HasColumnType("time with time zone");
+            .HasColumnType("timestamp with time zone");
 
         builder.Property(md => md.PriceUsd)
             .HasColumnName("price_usd")

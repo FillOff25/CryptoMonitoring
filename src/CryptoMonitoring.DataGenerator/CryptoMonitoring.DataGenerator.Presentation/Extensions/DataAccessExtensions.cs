@@ -14,8 +14,7 @@ public static class DataAccessExtensions
     public static IServiceCollection AddDatabases(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<CryptoMonitoringDataDbContext>(options =>
-            options.UseNpgsql(
-                configuration["CRYPTO_MONITORING_DATA_DB_CONNECTION_STRING"],
+            options.UseNpgsql(configuration["CRYPTO_MONITORING_DATA_DB_CONNECTION_STRING"],
                 o => o.MapEnum<IndicatorTypeEnum>("indicator_type_enum")));
 
         return services;
