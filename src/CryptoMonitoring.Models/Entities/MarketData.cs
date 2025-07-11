@@ -1,8 +1,7 @@
 ﻿namespace CryptoMonitoring.Models.Entities;
 
-public class MarketData
+public class MarketData : Entity<Guid>
 {
-    public Guid Id { get; set; }
     public DateTime Timestamp { get; set; }
     public decimal PriceUsd { get; set; }
     public decimal Volume24hUsd { get; set; }

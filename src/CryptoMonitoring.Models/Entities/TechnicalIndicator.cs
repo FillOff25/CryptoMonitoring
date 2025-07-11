@@ -2,9 +2,8 @@
 
 namespace CryptoMonitoring.Models.Entities;
 
-public class TechnicalIndicator
+public class TechnicalIndicator : Entity<Guid>
 {
-    public Guid Id { get; set; }
     public DateTime Timestamp { get; set; }
     public IndicatorTypeEnum IndicatorType { get; set; }
     public decimal Value { get; set; }
