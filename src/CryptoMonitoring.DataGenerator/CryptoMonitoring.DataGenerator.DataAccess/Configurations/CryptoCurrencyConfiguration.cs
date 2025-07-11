@@ -14,7 +14,7 @@ public class CryptoCurrencyConfiguration : IEntityTypeConfiguration<CryptoCurren
 
         builder.Property(cc => cc.Id)
             .HasColumnName("id")
-            .HasColumnType("varchar(100)")
+            .HasColumnType("uuid")
             .IsRequired();
 
         builder.Property(cc => cc.Name)
@@ -24,17 +24,5 @@ public class CryptoCurrencyConfiguration : IEntityTypeConfiguration<CryptoCurren
         builder.Property(cc => cc.Symbol)
             .HasColumnName("symbol")
             .HasColumnType("varchar(100)");
-
-        builder.Property(cc => cc.Rank)
-            .HasColumnName("rank")
-            .HasColumnType("integer");
-
-        builder.Property(cc => cc.Supply)
-            .HasColumnName("supply")
-            .HasColumnType("decimal");
-
-        builder.Property(cc => cc.MaxSupply)
-            .HasColumnName("max_supply")
-            .HasColumnType("decimal");
     }
 }

@@ -6,9 +6,13 @@ namespace CryptoMonitoring.DataGenerator.DataAccess;
 
 public class CryptoMonitoringDataDbContext : DbContext
 {
+    public CryptoMonitoringDataDbContext(DbContextOptions<CryptoMonitoringDataDbContext> options)
+        : base(options)
+    { }
+
     public DbSet<CryptoCurrency> CryptoCurrencies { get; set; }
-    public DbSet<Market> Markets { get; set; }
-    public DbSet<PriceHistory> PriceHistories { get; set; }
+    public DbSet<MarketData> MarketDatas { get; set; }
+    public DbSet<TechnicalIndicator> TechnicalIndicators { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
