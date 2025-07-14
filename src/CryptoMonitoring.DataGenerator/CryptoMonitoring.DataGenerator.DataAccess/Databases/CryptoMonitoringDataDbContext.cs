@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace CryptoMonitoring.DataGenerator.DataAccess;
+namespace CryptoMonitoring.DataGenerator.DataAccess.Databases;
 
 public class CryptoMonitoringDataDbContext : DbContext
 {
