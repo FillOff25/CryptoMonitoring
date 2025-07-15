@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CryptoMonitoring.DataGenerator.DataAccess.Migrations
+namespace CryptoMonitoring.DataGenerator.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration

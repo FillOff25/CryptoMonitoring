@@ -1,6 +1,6 @@
 ﻿using CryptoMonitoring.Models.Entities;
 
-namespace CryptoMonitoring.DataGenerator.DataAccess.Interfaces;
+namespace CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 
 public interface IGenericRepository<TEntity, TKey> 
     where TEntity : Entity<TKey>

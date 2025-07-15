@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CryptoMonitoring.DataGenerator.DataAccess.Configurations;
+namespace CryptoMonitoring.DataGenerator.Persistence.Configurations;
 
 public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
 {

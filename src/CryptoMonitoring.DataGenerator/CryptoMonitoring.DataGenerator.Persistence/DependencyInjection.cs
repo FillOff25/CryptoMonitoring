@@ -1,6 +1,6 @@
-﻿using CryptoMonitoring.DataGenerator.DataAccess.Databases;
-using CryptoMonitoring.DataGenerator.DataAccess.Interfaces;
-using CryptoMonitoring.DataGenerator.DataAccess.Repositories;
+﻿using CryptoMonitoring.DataGenerator.Persistence.Databases;
+using CryptoMonitoring.DataGenerator.Persistence.Interfaces;
+using CryptoMonitoring.DataGenerator.Persistence.Repositories;
 using CryptoMonitoring.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,11 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace CryptoMonitoring.DataGenerator.DataAccess;
+namespace CryptoMonitoring.DataGenerator.Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
         // Register DbContext in DI, configure and map custom enum types in database
         services.AddDbContext<CryptoMonitoringDataDbContext>(options =>

@@ -1,4 +1,4 @@
-using CryptoMonitoring.DataGenerator.DataAccess;
+using CryptoMonitoring.DataGenerator.Persistence;
 using Serilog;
 using Serilog.Events;
 
@@ -23,7 +23,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    builder.Services.AddDataAccess(builder.Configuration);
+    builder.Services.AddPersistence(builder.Configuration);
 
     var app = builder.Build();
 

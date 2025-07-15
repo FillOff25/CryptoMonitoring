@@ -1,9 +1,9 @@
-﻿using CryptoMonitoring.DataGenerator.DataAccess.Databases;
-using CryptoMonitoring.DataGenerator.DataAccess.Interfaces;
+﻿using CryptoMonitoring.DataGenerator.Persistence.Databases;
+using CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 using CryptoMonitoring.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CryptoMonitoring.DataGenerator.DataAccess.Repositories;
+namespace CryptoMonitoring.DataGenerator.Persistence.Repositories;
 
 public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> 
     where TEntity : Entity<TKey>

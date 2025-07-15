@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CryptoMonitoring.DataGenerator.DataAccess\CryptoMonitoring.DataGenerator.DataAccess.csproj" />
+    <ProjectReference Include="..\CryptoMonitoring.DataGenerator.Persistence\CryptoMonitoring.DataGenerator.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitoring.DataGenera
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitoring.DataGenerator.Business", "src\CryptoMonitoring.DataGenerator\CryptoMonitoring.DataGenerator.Business\CryptoMonitoring.DataGenerator.Business.csproj", "{757A824F-8D64-4A6A-8B6B-307F2DBDC2D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitoring.DataGenerator.DataAccess", "src\CryptoMonitoring.DataGenerator\CryptoMonitoring.DataGenerator.DataAccess\CryptoMonitoring.DataGenerator.DataAccess.csproj", "{F3393150-82FC-42A7-863D-F3F4400FE839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitoring.DataGenerator.Persistence", "src\CryptoMonitoring.DataGenerator\CryptoMonitoring.DataGenerator.Persistence\CryptoMonitoring.DataGenerator.Persistence.csproj", "{F3393150-82FC-42A7-863D-F3F4400FE839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
