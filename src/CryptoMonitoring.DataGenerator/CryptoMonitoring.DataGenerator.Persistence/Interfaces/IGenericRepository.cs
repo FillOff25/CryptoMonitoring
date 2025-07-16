@@ -9,5 +9,5 @@ public interface IGenericRepository<TEntity, TKey>
     Task DeleteAsync(TKey id);
     IQueryable<TEntity> GetAll();
     Task<TEntity?> GetByIdAsync(TKey id);
-    Task UpdateAsync(TEntity entity);
+    void Update(TEntity entity);
 }

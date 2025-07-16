@@ -24,25 +24,26 @@ public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey
 
     public virtual async Task<TEntity?> GetByIdAsync(TKey id)
     {
-        return await DbSet.AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Id!.Equals(id));
+        return await DbSet.FindAsync(id);
     }
 
     public virtual async Task AddAsync(TEntity entity)
     {
         await DbSet.AddAsync(entity);
-        await DbContext.SaveChangesAsync();
     }
 
-    public virtual async Task UpdateAsync(TEntity entity)
+    public virtual void Update(TEntity entity)
     {
         DbSet.Update(entity);
-        await DbContext.SaveChangesAsync();
     }
 
     public virtual async Task DeleteAsync(TKey id)
     {
-        await DbSet.Where(e => e.Id!.Equals(id))
-            .ExecuteDeleteAsync();
+        var entity = await DbSet.FindAsync(id);
+
+        if (entity != null)
+        {
+            DbSet.Remove(entity);
+        }
     }
 }
