@@ -1,3 +1,4 @@
+using CryptoMonitoring.DataGenerator.Business;
 using CryptoMonitoring.DataGenerator.Persistence;
 using Serilog;
 using Serilog.Events;
@@ -24,6 +25,7 @@ try
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddPersistence(builder.Configuration);
+    builder.Services.AddApplication();
 
     var app = builder.Build();
 

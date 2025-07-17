@@ -24,5 +24,8 @@ public class CryptoCurrencyConfiguration : IEntityTypeConfiguration<CryptoCurren
         builder.Property(cc => cc.Symbol)
             .HasColumnName("symbol")
             .HasColumnType("varchar(100)");
+
+        builder.HasIndex(cc => cc.Name)
+            .IsUnique();
     }
 }

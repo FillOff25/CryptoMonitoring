@@ -9,7 +9,7 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly CryptoMonitoringDataDbContext _dbContext;
 
-    private IGenericRepository<CryptoCurrency, Guid>? _cryptoCurrenciesRepository;
+    private ICryptoCurrenciesRepository? _cryptoCurrenciesRepository;
     private IGenericRepository<MarketData, Guid>? _marketDatasRepository;
     private IGenericRepository<TechnicalIndicator, Guid>? _technicalIndicatorsRepository;
 
@@ -18,11 +18,11 @@ public class UnitOfWork : IUnitOfWork
         _dbContext = dbContext;
     }
 
-    public IGenericRepository<CryptoCurrency, Guid> CryptoCurrencies
+    public ICryptoCurrenciesRepository CryptoCurrencies
     {
         get
         {
-            _cryptoCurrenciesRepository ??= new GenericRepository<CryptoCurrency, Guid>(_dbContext);
+            _cryptoCurrenciesRepository ??= new CryptoCurrenciesRepository(_dbContext);
             return _cryptoCurrenciesRepository;
         }
     }

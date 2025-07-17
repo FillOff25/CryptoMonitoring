@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CryptoMonitoring.DataGenerator.Business\CryptoMonitoring.DataGenerator.Business.csproj" />
     <ProjectReference Include="..\CryptoMonitoring.DataGenerator.Persistence\CryptoMonitoring.DataGenerator.Persistence.csproj" />
   </ItemGroup>
 
