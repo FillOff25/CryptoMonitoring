@@ -14,10 +14,18 @@ public class CoinCapController : ControllerBase
         _coinCapApiService = coinCapApiService;
     }
 
-    [HttpPost("crypto-currencies")]
+    [HttpPost("crypto-currency")]
     public async Task<IActionResult> GetCryptoCurrencies()
     {
-        await _coinCapApiService.GetCryptoCurrenciesAsync();
+        await _coinCapApiService.GetCryptoCurrencyAsync();
+
+        return Ok();
+    }
+
+    [HttpPost("market-data")]
+    public async Task<IActionResult> GetMarketData()
+    {
+        await _coinCapApiService.GetMarketDataAsync();
 
         return Ok();
     }

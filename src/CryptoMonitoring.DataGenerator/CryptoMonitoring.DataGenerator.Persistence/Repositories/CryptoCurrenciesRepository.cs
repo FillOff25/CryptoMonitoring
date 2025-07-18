@@ -15,4 +15,10 @@ public class CryptoCurrenciesRepository : GenericRepository<CryptoCurrency, Guid
     {
         return await DbSet.AnyAsync(cc => cc.Name == name);
     }
+
+    public async Task<CryptoCurrency?> GetByNameAsync(string name)
+    {
+        return await DbSet.AsNoTracking()
+            .FirstOrDefaultAsync(cc => cc.Name == name);
+    }
 }

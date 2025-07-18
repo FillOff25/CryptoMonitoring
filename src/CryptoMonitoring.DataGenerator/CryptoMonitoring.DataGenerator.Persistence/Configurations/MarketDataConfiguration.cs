@@ -20,10 +20,6 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
             .HasColumnName("timestamp")
             .HasColumnType("timestamp with time zone");
 
-        builder.Property(md => md.PriceUsd)
-            .HasColumnName("price_usd")
-            .HasColumnType("decimal(100)");
-
         builder.Property(md => md.Volume24hUsd)
             .HasColumnName("volume_24h_usd")
             .HasColumnType("decimal");

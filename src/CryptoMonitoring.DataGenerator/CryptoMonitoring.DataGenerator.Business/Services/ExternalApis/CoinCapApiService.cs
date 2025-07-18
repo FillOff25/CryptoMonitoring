@@ -27,13 +27,14 @@ public class CoinCapApiService : ICoinCapApiService
         _mapper = mapper;
     }
 
-    public async Task GetCryptoCurrenciesAsync()
+    public async Task GetCryptoCurrencyAsync()
     {
         var entities = await _externalApiHttpClient.GetDataAsync<CoinCapAssetsResponse>("assets");
 
         if (entities !=  null)
         {
             var cryptoCurrencies = _mapper.Map<List<CryptoCurrency>>(entities.Data);
+            var addedCount = 0;
 
             foreach (var cryptoCurrency in cryptoCurrencies)
             {
@@ -42,9 +43,52 @@ public class CoinCapApiService : ICoinCapApiService
                     cryptoCurrency.Id = Guid.NewGuid();
 
                     await _unitOfWork.CryptoCurrencies.AddAsync(cryptoCurrency);
-                    await _unitOfWork.SaveAsync();
+                    addedCount++;
                 }
             }
+
+            if (addedCount > 0)
+            {
+                await _unitOfWork.SaveAsync();
+            }
+        }
+    }
+
+    public async Task GetMarketDataAsync()
+    {
+        var entities = await _externalApiHttpClient.GetDataAsync<CoinCapAssetsResponse>("assets");
+
+        if (entities != null)
+        {
+            foreach (var entity in entities.Data)
+            {
+                if (await _unitOfWork.CryptoCurrencies.IsNameExistAsync(entity.Name))
+                {
+                    var cryptoCurrency = (await _unitOfWork.CryptoCurrencies.GetByNameAsync(entity.Name))!;
+                    var newMarketData = _mapper.Map<MarketData>(entity);
+
+                    newMarketData.CryptoCurrencyId = cryptoCurrency.Id;
+
+                    if (await _unitOfWork.MarketDatas.IsUpdatedTodayAsync(newMarketData))
+                    {
+                        var marketData = await _unitOfWork.MarketDatas.GetByCryptoCurrencyIdAndTimestamp(cryptoCurrency.Id, newMarketData.Timestamp);
+
+                        newMarketData.Id = marketData!.Id;
+                        newMarketData.CryptoCurrencyId = marketData!.CryptoCurrencyId;
+
+                        _unitOfWork.MarketDatas.Update(newMarketData);
+                    }
+                    else
+                    {
+                        newMarketData.Id = Guid.NewGuid();
+                        newMarketData.CryptoCurrencyId = cryptoCurrency.Id;
+
+                        await _unitOfWork.MarketDatas.AddAsync(newMarketData);
+                    }
+                }
+            }
+            
+            await _unitOfWork.SaveAsync();
         }
     }
 }

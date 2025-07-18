@@ -1,5 +1,5 @@
 ﻿using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
-using CryptoMonitoring.DataGenerator.Business.Profiles;
+using CryptoMonitoring.DataGenerator.Business.Mapper.Profiles;
 using CryptoMonitoring.DataGenerator.Business.Services.ExternalApis;
 using Microsoft.Extensions.DependencyInjection;
 

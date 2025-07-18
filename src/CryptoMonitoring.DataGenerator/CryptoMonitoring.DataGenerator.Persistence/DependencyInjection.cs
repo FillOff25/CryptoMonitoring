@@ -22,6 +22,7 @@ public static class DependencyInjection
         // Register repositories in DI
         services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
         services.AddScoped<ICryptoCurrenciesRepository, CryptoCurrenciesRepository>();
+        services.AddScoped<IMarketDatasRepository, MarketDatasRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 

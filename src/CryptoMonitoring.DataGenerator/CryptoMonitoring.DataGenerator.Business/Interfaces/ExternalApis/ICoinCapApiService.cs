@@ -2,5 +2,6 @@
 
 public interface ICoinCapApiService
 {
-    Task GetCryptoCurrenciesAsync();
+    Task GetCryptoCurrencyAsync();
+    Task GetMarketDataAsync();
 }
