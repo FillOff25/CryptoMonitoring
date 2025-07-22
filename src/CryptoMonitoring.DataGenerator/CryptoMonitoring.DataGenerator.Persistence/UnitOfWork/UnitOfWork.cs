@@ -10,9 +10,9 @@ public class UnitOfWork : IUnitOfWork
     private readonly CryptoMonitoringDataDbContext _dbContext;
 
     private ICryptoCurrenciesRepository? _cryptoCurrenciesRepository;
-    private IMarketDatasRepository? _marketDatasRepository;
+    private IMarketDataRepository? _marketDataRepository;
     private IGenericRepository<TechnicalIndicator, Guid>? _technicalIndicatorsRepository;
-    private IGenericRepository<PriceHistoryData, Guid>? _priceHistoryDatasRepository;
+    private IPriceHistoryDataRepository? _priceHistoryDataRepository;
 
     public UnitOfWork(CryptoMonitoringDataDbContext dbContext)
     {
@@ -28,12 +28,12 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IMarketDatasRepository MarketDatas
+    public IMarketDataRepository MarketData
     {
         get
         {
-            _marketDatasRepository ??= new MarketDatasRepository(_dbContext);
-            return _marketDatasRepository;
+            _marketDataRepository ??= new MarketDataRepository(_dbContext);
+            return _marketDataRepository;
         }
     }
 
@@ -46,12 +46,12 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IGenericRepository<PriceHistoryData, Guid> PriceHistoryDatas
+    public IPriceHistoryDataRepository PriceHistoryData
     {
         get
         {
-            _priceHistoryDatasRepository ??= new GenericRepository<PriceHistoryData, Guid>(_dbContext);
-            return _priceHistoryDatasRepository;
+            _priceHistoryDataRepository ??= new PriceHistoryDataRepository(_dbContext);
+            return _priceHistoryDataRepository;
         }
     }
 

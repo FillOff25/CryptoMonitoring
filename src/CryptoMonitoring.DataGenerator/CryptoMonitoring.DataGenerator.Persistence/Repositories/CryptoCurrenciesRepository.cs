@@ -13,12 +13,17 @@ public class CryptoCurrenciesRepository : GenericRepository<CryptoCurrency, Guid
 
     public async Task<bool> IsNameExistAsync(string name)
     {
-        return await DbSet.AnyAsync(cc => cc.Name == name);
+        return await DbSet.AnyAsync(cc => cc.Name.ToLower() == name.ToLower());
     }
 
-    public async Task<CryptoCurrency?> GetByNameAsync(string name)
+    public async Task<bool> IsCoinCapIdExistAsync(string coinCapId)
+    {
+        return await DbSet.AnyAsync(cc => cc.CoinCapId == coinCapId);
+    }
+
+    public async Task<CryptoCurrency?> GetByCoinCapIdAsync(string coinCapId)
     {
         return await DbSet.AsNoTracking()
-            .FirstOrDefaultAsync(cc => cc.Name == name);
+            .FirstOrDefaultAsync(cc => cc.CoinCapId == coinCapId);
     }
 }

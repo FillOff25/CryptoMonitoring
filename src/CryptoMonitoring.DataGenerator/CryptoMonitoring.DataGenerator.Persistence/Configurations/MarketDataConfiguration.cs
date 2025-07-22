@@ -32,10 +32,6 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
             .HasColumnName("vwap_24h_usd")
             .HasColumnType("decimal");
 
-        builder.Property(md => md.CirculatingSupply)
-            .HasColumnName("circulating_supply")
-            .HasColumnType("decimal");
-
         builder.Property(md => md.Change24hPercent)
             .HasColumnName("сhange_24h_зercent")
             .HasColumnType("decimal");

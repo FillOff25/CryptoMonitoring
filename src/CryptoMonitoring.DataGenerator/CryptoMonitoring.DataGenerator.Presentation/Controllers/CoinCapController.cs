@@ -1,4 +1,5 @@
-﻿using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
+﻿using CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
+using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
@@ -26,6 +27,14 @@ public class CoinCapController : ControllerBase
     public async Task<IActionResult> GetMarketData()
     {
         await _coinCapApiService.GetMarketDataAsync();
+
+        return Ok();
+    }
+
+    [HttpPost("price-history-data")]
+    public async Task<IActionResult> GetPriceHistoryData([FromQuery] CoinCapHistoryDataRequestDto dto)
+    {
+        await _coinCapApiService.GetPriceHistoryAsync(dto);
 
         return Ok();
     }

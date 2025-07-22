@@ -5,9 +5,9 @@ namespace CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 public interface IUnitOfWork : IAsyncDisposable
 {
     ICryptoCurrenciesRepository CryptoCurrencies { get; }
-    IMarketDatasRepository MarketDatas { get; }
+    IMarketDataRepository MarketData { get; }
     IGenericRepository<TechnicalIndicator, Guid> TechnicalIndicators { get; }
-    IGenericRepository<PriceHistoryData, Guid> PriceHistoryDatas { get; }
+    IPriceHistoryDataRepository PriceHistoryData { get; }
 
     Task SaveAsync();
 }

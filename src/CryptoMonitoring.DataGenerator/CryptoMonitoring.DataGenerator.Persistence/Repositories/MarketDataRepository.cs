@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CryptoMonitoring.DataGenerator.Persistence.Repositories;
 
-public class MarketDatasRepository : GenericRepository<MarketData, Guid>, IMarketDatasRepository
+public class MarketDataRepository : GenericRepository<MarketData, Guid>, IMarketDataRepository
 {
-    public MarketDatasRepository(CryptoMonitoringDataDbContext dbContext)
+    public MarketDataRepository(CryptoMonitoringDataDbContext dbContext)
         : base(dbContext)
     { }
 

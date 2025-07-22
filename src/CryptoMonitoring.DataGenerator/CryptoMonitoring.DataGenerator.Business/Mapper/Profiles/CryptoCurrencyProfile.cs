@@ -8,7 +8,10 @@ public class CryptoCurrencyProfile : Profile
 {
     public CryptoCurrencyProfile()
     {
-        CreateMap<CoinCapAssetDto, CryptoCurrency>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<CoinCapAssetResponseDto, CryptoCurrency>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Symbol, opt => opt.MapFrom(src => src.Symbol))
+            .ForMember(dest => dest.CoinCapId, opt => opt.MapFrom(src => src.Id));
     }
 }

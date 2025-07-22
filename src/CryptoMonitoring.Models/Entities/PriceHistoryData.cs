@@ -3,7 +3,8 @@
 public class PriceHistoryData : Entity<Guid>
 {
     public DateTime Timestamp { get; set; }
-    public decimal PriceUsd { get; set; }
+    public decimal? PriceUsd { get; set; }
+    public decimal? CirculatingSupply { get; set; }
     
     public Guid CryptoCurrencyId { get; set; }
     public CryptoCurrency CryptoCurrency { get; set; } = null!;

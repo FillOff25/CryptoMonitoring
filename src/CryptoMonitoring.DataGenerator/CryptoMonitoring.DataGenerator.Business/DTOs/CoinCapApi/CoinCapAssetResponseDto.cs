@@ -2,7 +2,7 @@
 
 namespace CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
 
-public class CoinCapAssetDto
+public class CoinCapAssetResponseDto
 {
     [JsonProperty("id")]
     public string Id { get; set; } = string.Empty;
