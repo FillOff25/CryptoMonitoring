@@ -1,7 +1,6 @@
 ﻿using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 using Newtonsoft.Json;
 using Serilog;
-using System.Net.Http.Headers;
 
 namespace CryptoMonitoring.DataGenerator.Business.Services.ExternalApis;
 
@@ -19,9 +18,9 @@ public class ExternalApiHttpClient : IExternalApiHttpClient
         _httpClient.BaseAddress = new Uri(baseAddress);
     }
 
-    public void SetBearerApiKey(string apiKey)
+    public void SetHeaderApiKey(string header, string value)
     {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", apiKey);
+        _httpClient.DefaultRequestHeaders.Add(header, value);
     }
 
     public async Task<T?> GetDataAsync<T>(string endpoint)

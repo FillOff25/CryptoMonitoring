@@ -11,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddHttpClient<IExternalApiHttpClient, ExternalApiHttpClient>();
         services.AddScoped<ICoinCapApiService, CoinCapApiService>();
+        services.AddScoped<ICoinGeckoApiService, CoinGeckoApiService>();
         
         services.AddAutoMapper(cfg => { }, typeof(CryptoCurrencyProfile).Assembly);
 

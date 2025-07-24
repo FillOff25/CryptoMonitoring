@@ -24,10 +24,6 @@ public class PriceHistoryDataConfiguration : IEntityTypeConfiguration<PriceHisto
             .HasColumnName("price_usd")
             .HasColumnType("decimal(100)");
 
-        builder.Property(phd => phd.CirculatingSupply)
-            .HasColumnName("circulating_supply")
-            .HasColumnType("decimal");
-
         builder.HasOne(phd => phd.CryptoCurrency)
             .WithMany()
             .HasForeignKey(phd => phd.CryptoCurrencyId);

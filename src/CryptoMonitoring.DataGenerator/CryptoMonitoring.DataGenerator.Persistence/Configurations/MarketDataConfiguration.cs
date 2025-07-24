@@ -36,6 +36,10 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
             .HasColumnName("сhange_24h_зercent")
             .HasColumnType("decimal");
 
+        builder.Property(md => md.CirculatingSupply)
+            .HasColumnName("circulating_supply")
+            .HasColumnType("decimal");
+
         builder.HasOne(md => md.CryptoCurrency)
             .WithMany()
             .HasForeignKey(md => md.CryptoCurrencyId);

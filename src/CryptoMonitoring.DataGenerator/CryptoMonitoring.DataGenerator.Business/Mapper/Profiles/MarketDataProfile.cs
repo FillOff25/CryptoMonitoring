@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
+using CryptoMonitoring.DataGenerator.Business.DTOs.CoinGeckoApi;
 using CryptoMonitoring.DataGenerator.Business.Mapper.Converters;
 using CryptoMonitoring.Models.Entities;
 
@@ -16,6 +17,18 @@ public class MarketDataProfile : Profile
             .ForMember(dest => dest.MarketCapUsd, opt => opt.ConvertUsing(new NullableStringToNullableDecimalConverter(), src => src.MarketCapUsd))
             .ForMember(dest => dest.Vwap24hUsd, opt => opt.ConvertUsing(new NullableStringToNullableDecimalConverter(), src => src.Vwap24Hr))
             .ForMember(dest => dest.Change24hPercent, opt => opt.ConvertUsing(new NullableStringToNullableDecimalConverter(), src => src.ChangePercent24Hr))
+            .ForMember(dest => dest.CirculatingSupply, opt => opt.ConvertUsing(new NullableStringToNullableDecimalConverter(), src => src.Supply))
+            .ForMember(dest => dest.CryptoCurrencyId, opt => opt.Ignore())
+            .ForMember(dest => dest.CryptoCurrency, opt => opt.Ignore());
+
+        CreateMap<CoinGeckoCoinWithMarketDataResponseDto, MarketData>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Timestamp, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Volume24hUsd, opt => opt.MapFrom(src => src.TotalVolume))
+            .ForMember(dest => dest.MarketCapUsd, opt => opt.MapFrom(src => src.MarketCap))
+            .ForMember(dest => dest.Vwap24hUsd, opt => opt.MapFrom(src => (decimal?)null))
+            .ForMember(dest => dest.Change24hPercent, opt => opt.MapFrom(src => src.PriceChangePercentage24h))
+            .ForMember(dest => dest.CirculatingSupply, opt => opt.MapFrom(src => src.CirculatingSupply))
             .ForMember(dest => dest.CryptoCurrencyId, opt => opt.Ignore())
             .ForMember(dest => dest.CryptoCurrency, opt => opt.Ignore());
     }

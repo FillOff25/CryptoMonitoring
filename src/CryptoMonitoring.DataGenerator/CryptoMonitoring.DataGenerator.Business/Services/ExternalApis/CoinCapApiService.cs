@@ -22,7 +22,7 @@ public class CoinCapApiService : ICoinCapApiService
     {
         _externalApiHttpClient = externalApiHttpClient;
         _externalApiHttpClient.SetBaseAddress(configuration["COINCAP_BASE_URL_ADDRESS"]!);
-        _externalApiHttpClient.SetBearerApiKey(configuration["COINCAP_API_KEY"]!);
+        _externalApiHttpClient.SetHeaderApiKey("Authorization", $"Bearer {configuration["COINCAP_API_KEY"]!}");
 
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -40,34 +40,40 @@ public class CoinCapApiService : ICoinCapApiService
             }
 
             var cryptoCurrencies = _mapper.Map<List<CryptoCurrency>>(entities.Data);
-            var addedCount = 0;
+            var addedAndUpdatedCount = 0;
 
-            foreach (var cryptoCurrency in cryptoCurrencies)
+            foreach (var newCryptoCurrency in cryptoCurrencies)
             {
-                if (!await _unitOfWork.CryptoCurrencies.IsCoinCapIdExistAsync(cryptoCurrency.CoinCapId!) &&
-                    !await _unitOfWork.CryptoCurrencies.IsNameExistAsync(cryptoCurrency.Name))
+                if (!await _unitOfWork.CryptoCurrencies.IsCoinCapIdExistAsync(newCryptoCurrency.CoinCapId!))
                 {
-                    cryptoCurrency.Id = Guid.NewGuid();
+                    if (await _unitOfWork.CryptoCurrencies.IsNameAndSymbolExistAsync(newCryptoCurrency.Name, newCryptoCurrency.Symbol))
+                    {
+                        var cryptoCurrency = await _unitOfWork.CryptoCurrencies.GetByNameAndSymbolAsync(newCryptoCurrency.Name, newCryptoCurrency.Symbol);
+                        cryptoCurrency!.CoinCapId = newCryptoCurrency.CoinCapId;
 
-                    await _unitOfWork.CryptoCurrencies.AddAsync(cryptoCurrency);
-                    addedCount++;
+                        _unitOfWork.CryptoCurrencies.Update(cryptoCurrency);
+                    }
+                    else
+                    {
+                        newCryptoCurrency.Id = Guid.NewGuid();
+
+                        await _unitOfWork.CryptoCurrencies.AddAsync(newCryptoCurrency);
+                    }
+
+                    addedAndUpdatedCount++;
                 }
             }
 
-            if (addedCount > 0)
+            if (addedAndUpdatedCount > 0)
             {
                 await _unitOfWork.SaveAsync();
 
-                Log.Information($"Successfully retrieved cryptocurrency data. {addedCount} new cryptocurrencies were added to the database.");
-            }
-            else
-            {
-                Log.Information("Successfully retrieved cryptocurrency data, but no new cryptocurrencies were added as all already existed.");
+                Log.Information($"Successfully retrieved cryptocurrency data from CoinCap Api");
             }
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "An unexpected error occurred while getting cryptocurrency data");
+            Log.Error(ex, "An unexpected error occurred while getting cryptocurrency data from CoinCap Api");
             throw;
         }
     }
@@ -83,6 +89,8 @@ public class CoinCapApiService : ICoinCapApiService
                 return;
             }
 
+            var addedCount = 0;
+
             foreach (var entity in entities.Data)
             {
                 if (await _unitOfWork.CryptoCurrencies.IsCoinCapIdExistAsync(entity.Id))
@@ -92,47 +100,44 @@ public class CoinCapApiService : ICoinCapApiService
 
                     newMarketData.CryptoCurrencyId = cryptoCurrency.Id;
 
-                    if (await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData))
-                    {
-                        var marketData = await _unitOfWork.MarketData.GetByCryptoCurrencyIdAndTimestamp(cryptoCurrency.Id, newMarketData.Timestamp);
-
-                        newMarketData.Id = marketData!.Id;
-                        newMarketData.CryptoCurrencyId = marketData!.CryptoCurrencyId;
-
-                        _unitOfWork.MarketData.Update(newMarketData);
-                    }
-                    else
+                    if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData))
                     {
                         newMarketData.Id = Guid.NewGuid();
                         newMarketData.CryptoCurrencyId = cryptoCurrency.Id;
 
                         await _unitOfWork.MarketData.AddAsync(newMarketData);
+                        addedCount++;
                     }
                 }
             }
 
-            await _unitOfWork.SaveAsync();
+            if (addedCount > 0)
+            {
+                await _unitOfWork.SaveAsync();
 
-            Log.Information("Market data successfully retrieved and changes applied to the database.");
+                Log.Information($"Market data successfully retrieved and changes applied to the database from CoinCap Api");
+            }
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "An unexpected error occurred while getting market data");
+            Log.Error(ex, "An unexpected error occurred while getting market data from CoinCap Api");
             throw;
         }
     }
 
-    public async Task GetPriceHistoryAsync(CoinCapHistoryDataRequestDto dto)
+    public async Task GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto)
     {
         try
         {
-            if (!await _unitOfWork.CryptoCurrencies.IsCoinCapIdExistAsync(dto.Slug))
+            var cryptoCurrency = await _unitOfWork.CryptoCurrencies.GetByCoinCapIdAsync(dto.CoinCapId);
+            
+            if (cryptoCurrency == null)
             {
                 return;
             }
 
             var entities = await _externalApiHttpClient.GetDataAsync<CoinCapResponseDto<List<CoinCapHistoryDataResponseDto>>>(
-                $"/v3/assets/{dto.Slug}/history?interval={dto.Interval}");
+                $"/v3/assets/{dto.CoinCapId}/history?interval=d1");
 
             if (entities?.Data == null || entities.Data.Count == 0)
             {
@@ -140,7 +145,6 @@ public class CoinCapApiService : ICoinCapApiService
             }
 
             var priceHistoryData = _mapper.Map<List<PriceHistoryData>>(entities.Data);
-            var cryptoCurrency = await _unitOfWork.CryptoCurrencies.GetByCoinCapIdAsync(dto.Slug);
             var addedCount = 0;
 
             foreach (var priceHistory in priceHistoryData)
@@ -159,16 +163,12 @@ public class CoinCapApiService : ICoinCapApiService
             {
                 await _unitOfWork.SaveAsync();
 
-                Log.Information($"Successfully retrieved price history data (slug: {dto.Slug}). {addedCount} new cryptocurrencies were added to the database.");
-            }
-            else
-            {
-                Log.Information("Successfully retrieved cryptocurrency data, but no new price history data were added as all already existed.");
+                Log.Information($"Successfully retrieved price history data from CoinCap Api");
             }
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "An unexpected error occurred while getting price history data");
+            Log.Error(ex, "An unexpected error occurred while getting price history data from CoinCap Api");
             throw;
         }
     }

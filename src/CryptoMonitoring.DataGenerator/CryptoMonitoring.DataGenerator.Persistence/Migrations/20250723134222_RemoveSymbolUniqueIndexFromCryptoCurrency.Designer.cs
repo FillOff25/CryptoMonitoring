@@ -4,6 +4,7 @@ using CryptoMonitoring.DataGenerator.Persistence.Databases;
 using CryptoMonitoring.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CryptoMonitoring.DataGenerator.Persistence.Migrations
 {
     [DbContext(typeof(CryptoMonitoringDataDbContext))]
-    partial class CryptoMonitoringDataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250723134222_RemoveSymbolUniqueIndexFromCryptoCurrency")]
+    partial class RemoveSymbolUniqueIndexFromCryptoCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +53,7 @@ namespace CryptoMonitoring.DataGenerator.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "Symbol")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("crypto_currencies", (string)null);
@@ -66,10 +69,6 @@ namespace CryptoMonitoring.DataGenerator.Persistence.Migrations
                     b.Property<decimal?>("Change24hPercent")
                         .HasColumnType("decimal")
                         .HasColumnName("сhange_24h_зercent");
-
-                    b.Property<decimal?>("CirculatingSupply")
-                        .HasColumnType("decimal")
-                        .HasColumnName("circulating_supply");
 
                     b.Property<Guid>("CryptoCurrencyId")
                         .HasColumnType("uuid");
@@ -104,6 +103,10 @@ namespace CryptoMonitoring.DataGenerator.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<decimal?>("CirculatingSupply")
+                        .HasColumnType("decimal")
+                        .HasColumnName("circulating_supply");
 
                     b.Property<Guid>("CryptoCurrencyId")
                         .HasColumnType("uuid");

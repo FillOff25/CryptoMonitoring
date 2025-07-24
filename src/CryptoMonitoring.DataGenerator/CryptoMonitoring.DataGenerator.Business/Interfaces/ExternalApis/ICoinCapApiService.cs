@@ -6,5 +6,5 @@ public interface ICoinCapApiService
 {
     Task GetCryptoCurrencyAsync();
     Task GetMarketDataAsync();
-    Task GetPriceHistoryAsync(CoinCapHistoryDataRequestDto dto);
+    Task GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto);
 }

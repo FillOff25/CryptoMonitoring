@@ -3,7 +3,7 @@
     public interface IExternalApiHttpClient
     {
         void SetBaseAddress(string baseAddress);
-        void SetBearerApiKey(string apiKey);
+        void SetHeaderApiKey(string header, string value);
         Task<T?> GetDataAsync<T>(string endpoint);
     }
 }

@@ -6,4 +6,5 @@ public class CryptoCurrency : Entity<Guid>
     public string Symbol { get; set; } = string.Empty;
 
     public string? CoinCapId { get; set; }
+    public string? CoinGeckoId { get; set; }
 }

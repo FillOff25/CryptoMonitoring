@@ -29,10 +29,7 @@ public class CryptoCurrencyConfiguration : IEntityTypeConfiguration<CryptoCurren
             .HasColumnName("coin_cap_id")
             .HasColumnType("varchar(100)");
 
-        builder.HasIndex(cc => cc.Name)
-            .IsUnique();
-
-        builder.HasIndex(cc => cc.Symbol)
+        builder.HasIndex(cc => new { cc.Name, cc.Symbol })
             .IsUnique();
     }
 }

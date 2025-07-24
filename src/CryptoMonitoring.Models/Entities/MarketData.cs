@@ -7,6 +7,7 @@ public class MarketData : Entity<Guid>
     public decimal? MarketCapUsd { get; set; }
     public decimal? Vwap24hUsd { get; set; }
     public decimal? Change24hPercent { get; set; }
+    public decimal? CirculatingSupply { get; set; }
 
     public Guid CryptoCurrencyId { get; set; }
     public CryptoCurrency CryptoCurrency { get; set; } = null!;
