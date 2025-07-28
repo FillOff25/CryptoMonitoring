@@ -10,10 +10,12 @@ namespace CryptoMonitoring.DataGenerator.Business.Services.DataGenerator;
 public class DataGeneratorService : IDataGeneratorService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly Random _random;
 
     public DataGeneratorService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
+        _random = new Random();
     }
 
     public async Task GenerateMarketDataAsync(GenerateDataRequestDto dto)
@@ -27,14 +29,12 @@ public class DataGeneratorService : IDataGeneratorService
                 return;
             }
 
-            Random random = new Random();
             var generatedData = new List<MarketData>();
-
             var existingMarketData = await _unitOfWork.MarketData.GetByCryptoCurrencyId(cryptoCurrency.Id).ToListAsync();
 
-            decimal baseVolume24hUsd = GetBaseValue(existingMarketData, md => md.Volume24hUsd, random, 1000m, 2000m);
-            decimal baseVwap24hUsd = GetBaseValue(existingMarketData, md => md.Vwap24hUsd, random, 1000m, 2000m);
-            decimal baseCirculatingSupply = GetBaseValue(existingMarketData, md => md.CirculatingSupply, random, 1000m, 2000m);
+            decimal baseVolume24hUsd = GetBaseValue(existingMarketData, md => md.Volume24hUsd, _random, 1000m, 2000m);
+            decimal baseVwap24hUsd = GetBaseValue(existingMarketData, md => md.Vwap24hUsd, _random, 1000m, 2000m);
+            decimal baseCirculatingSupply = GetBaseValue(existingMarketData, md => md.CirculatingSupply, _random, 1000m, 2000m);
 
             decimal lastVwap24hUsd = baseVwap24hUsd;
             decimal lastVolume24hUsd = baseVolume24hUsd;
@@ -49,12 +49,12 @@ public class DataGeneratorService : IDataGeneratorService
 
                 if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(cryptoCurrency.Id, currentTimestamp))
                 {
-                    decimal volume24hUsd = baseVolume24hUsd * (1m + ((decimal)(random.NextDouble() * 0.2) - 0.1m));
-                    decimal currentVwap24hUsd = baseVwap24hUsd * 1m + ((decimal)(random.NextDouble() * 0.2) - 0.1m);
-                    decimal circulatingSupply = baseCirculatingSupply * (1m + ((decimal)(random.NextDouble() * 0.2) - 0.1m));
+                    decimal volume24hUsd = baseVolume24hUsd * (1m + ((decimal)(_random.NextDouble() * 0.2) - 0.1m));
+                    decimal currentVwap24hUsd = baseVwap24hUsd * 1m + ((decimal)(_random.NextDouble() * 0.2) - 0.1m);
+                    decimal circulatingSupply = baseCirculatingSupply * (1m + ((decimal)(_random.NextDouble() * 0.2) - 0.1m));
 
                     decimal marketCapUsd = currentVwap24hUsd * circulatingSupply;
-                    decimal change24hPercent = (decimal)(random.NextDouble() * 30) - 15;
+                    decimal change24hPercent = (decimal)(_random.NextDouble() * 30) - 15;
 
                     var marketData = new MarketData
                     {
@@ -108,12 +108,10 @@ public class DataGeneratorService : IDataGeneratorService
                 return;
             }
 
-            Random random = new Random();
             var generatedData = new List<PriceHistoryData>();
-
             var existingPriceHistoryData = await _unitOfWork.PriceHistoryData.GetByCryptoCurrencyId(cryptoCurrency.Id).ToListAsync();
 
-            decimal basePriceUsd = GetBaseValue(existingPriceHistoryData, phd => phd.PriceUsd, random, 1000m, 2000m);
+            decimal basePriceUsd = GetBaseValue(existingPriceHistoryData, phd => phd.PriceUsd, _random, 1000m, 2000m);
             decimal lastPriceUsd = basePriceUsd;
 
             DateTime currentTimestamp = DateTime.UtcNow;
@@ -124,7 +122,7 @@ public class DataGeneratorService : IDataGeneratorService
 
                 if (!await _unitOfWork.PriceHistoryData.IsExist(cryptoCurrency.Id, currentTimestamp))
                 {
-                    decimal priceUsd = basePriceUsd * (1m + ((decimal)(random.NextDouble() * 0.2) - 0.1m));
+                    decimal priceUsd = basePriceUsd * (1m + ((decimal)(_random.NextDouble() * 0.2) - 0.1m));
 
                     var priceHistoryData = new PriceHistoryData
                     {
