@@ -114,7 +114,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             newMarketData[0].CryptoCurrencyId = cryptoCurrency.Id;
 
-            if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData[0]))
+            if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData[0].CryptoCurrencyId, newMarketData[0].Timestamp))
             {
                 newMarketData[0].Id = Guid.NewGuid();
                 newMarketData[0].CryptoCurrencyId = cryptoCurrency.Id;

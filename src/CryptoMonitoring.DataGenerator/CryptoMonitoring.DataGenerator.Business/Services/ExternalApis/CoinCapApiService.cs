@@ -100,7 +100,7 @@ public class CoinCapApiService : ICoinCapApiService
 
                     newMarketData.CryptoCurrencyId = cryptoCurrency.Id;
 
-                    if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData))
+                    if (!await _unitOfWork.MarketData.IsUpdatedTodayAsync(newMarketData.CryptoCurrencyId, newMarketData.Timestamp))
                     {
                         newMarketData.Id = Guid.NewGuid();
                         newMarketData.CryptoCurrencyId = cryptoCurrency.Id;

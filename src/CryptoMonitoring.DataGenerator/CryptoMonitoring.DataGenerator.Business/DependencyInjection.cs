@@ -1,5 +1,7 @@
-﻿using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
+﻿using CryptoMonitoring.DataGenerator.Business.Interfaces.DataGenerator;
+using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 using CryptoMonitoring.DataGenerator.Business.Mapper.Profiles;
+using CryptoMonitoring.DataGenerator.Business.Services.DataGenerator;
 using CryptoMonitoring.DataGenerator.Business.Services.ExternalApis;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,7 @@ public static class DependencyInjection
         services.AddHttpClient<IExternalApiHttpClient, ExternalApiHttpClient>();
         services.AddScoped<ICoinCapApiService, CoinCapApiService>();
         services.AddScoped<ICoinGeckoApiService, CoinGeckoApiService>();
+        services.AddScoped<IDataGeneratorService, DataGeneratorService>();
         
         services.AddAutoMapper(cfg => { }, typeof(CryptoCurrencyProfile).Assembly);
 

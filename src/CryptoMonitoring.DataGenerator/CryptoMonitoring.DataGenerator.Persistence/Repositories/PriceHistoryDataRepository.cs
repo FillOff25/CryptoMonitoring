@@ -16,4 +16,10 @@ public class PriceHistoryDataRepository : GenericRepository<PriceHistoryData, Gu
         return await DbSet.AnyAsync(phd =>
             phd.CryptoCurrencyId == cryptoCurrencyId && phd.Timestamp == timestamp);
     }
+
+    public IQueryable<PriceHistoryData> GetByCryptoCurrencyId(Guid cryptoCurrencyId)
+    {
+        return DbSet.AsNoTracking()
+            .Where(phd => phd.CryptoCurrencyId == cryptoCurrencyId);
+    }
 }
