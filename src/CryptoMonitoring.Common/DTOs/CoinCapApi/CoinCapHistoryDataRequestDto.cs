@@ -1,4 +1,4 @@
-﻿namespace CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
+﻿namespace CryptoMonitoring.Common.DTOs.CoinCapApi;
 
 public class CoinCapHistoryDataRequestDto
 {

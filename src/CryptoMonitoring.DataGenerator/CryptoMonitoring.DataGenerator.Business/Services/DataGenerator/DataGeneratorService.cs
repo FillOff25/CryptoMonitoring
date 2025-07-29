@@ -1,4 +1,4 @@
-﻿using CryptoMonitoring.DataGenerator.Business.DTOs.DataGenerator;
+﻿using CryptoMonitoring.Common.DTOs.DataGenerator;
 using CryptoMonitoring.DataGenerator.Business.Interfaces.DataGenerator;
 using CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 using CryptoMonitoring.Models.Entities;
@@ -18,7 +18,7 @@ public class DataGeneratorService : IDataGeneratorService
         _random = new Random();
     }
 
-    public async Task GenerateMarketDataAsync(GenerateDataRequestDto dto)
+    public async Task<GenerateDataResponseDto> GenerateMarketDataAsync(GenerateDataRequestDto dto)
     {
         try
         {
@@ -26,7 +26,7 @@ public class DataGeneratorService : IDataGeneratorService
 
             if (cryptoCurrency == null)
             {
-                return;
+                return new GenerateDataResponseDto(dto.Name, dto.Symbol, 0);
             }
 
             var generatedData = new List<MarketData>();
@@ -90,14 +90,17 @@ public class DataGeneratorService : IDataGeneratorService
             {
                 Log.Information($"No new synthetic market data generated for {dto.Name} ({dto.Symbol}). All days already existed");
             }
+
+            return new GenerateDataResponseDto(dto.Name, dto.Symbol, generatedData.Count);
         }
         catch (Exception ex)
         {
             Log.Error(ex, $"An error occurred while generating synthetic market data for {dto.Name} ({dto.Symbol})");
+            throw;
         }
     }
 
-    public async Task GeneratePriceHistoryDataAsync(GenerateDataRequestDto dto)
+    public async Task<GenerateDataResponseDto> GeneratePriceHistoryDataAsync(GenerateDataRequestDto dto)
     {
         try
         {
@@ -105,7 +108,7 @@ public class DataGeneratorService : IDataGeneratorService
 
             if (cryptoCurrency == null)
             {
-                return;
+                return new GenerateDataResponseDto(dto.Name, dto.Symbol, 0);
             }
 
             var generatedData = new List<PriceHistoryData>();
@@ -151,10 +154,13 @@ public class DataGeneratorService : IDataGeneratorService
             {
                 Log.Information($"No new synthetic price history generated for {dto.Name} ({dto.Symbol}). All days already existed");
             }
+
+            return new GenerateDataResponseDto(dto.Name, dto.Symbol, generatedData.Count);
         }
         catch (Exception ex)
         {
             Log.Error(ex, $"An error occurred while generating synthetic price history for {dto.Name} ({dto.Symbol})");
+            throw;
         }
     }
 

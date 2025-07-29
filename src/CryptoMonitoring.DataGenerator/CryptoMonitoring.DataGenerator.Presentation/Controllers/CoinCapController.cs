@@ -1,5 +1,5 @@
-﻿using CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
-using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
+﻿using CryptoMonitoring.Common.DTOs.CoinCapApi;
+using CryptoMonitoring.DataGenerator.Business.Commands.ExternalApis.CoinCapApi;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
@@ -8,34 +8,35 @@ namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
 [Route("/api/coincap")]
 public class CoinCapController : ControllerBase
 {
-    private readonly ICoinCapApiService _coinCapApiService;
+    private readonly GetCryptoCurrenciesCoinCapCommand _getCryptoCurrenciesCoinCapCommand;
+    private readonly GetMarketDataCoinCapCommand _getMarketDataCoinCapCommand;
+    private readonly GetPriceHistoryDataCoinCapCommand _getPriceHistoryDataCoinCapCommand;
 
-    public CoinCapController(ICoinCapApiService coinCapApiService)
+    public CoinCapController(
+        GetCryptoCurrenciesCoinCapCommand getCryptoCurrenciesCoinCapCommand,
+        GetMarketDataCoinCapCommand getMarketDataCoinCapCommand,
+        GetPriceHistoryDataCoinCapCommand getPriceHistoryDataCoinCapCommand)
     {
-        _coinCapApiService = coinCapApiService;
+        _getCryptoCurrenciesCoinCapCommand = getCryptoCurrenciesCoinCapCommand;
+        _getMarketDataCoinCapCommand = getMarketDataCoinCapCommand;
+        _getPriceHistoryDataCoinCapCommand = getPriceHistoryDataCoinCapCommand;
     }
 
     [HttpPost("crypto-currency")]
-    public async Task<IActionResult> GetCryptoCurrencies()
+    public async Task<IActionResult> GetCryptoCurrenciesAsync()
     {
-        await _coinCapApiService.GetCryptoCurrencyAsync();
-
-        return Ok();
+        return await _getCryptoCurrenciesCoinCapCommand.ExecuteAsync();
     }
 
     [HttpPost("market-data")]
-    public async Task<IActionResult> GetMarketData()
+    public async Task<IActionResult> GetMarketDataAsync()
     {
-        await _coinCapApiService.GetMarketDataAsync();
-
-        return Ok();
+        return await _getMarketDataCoinCapCommand.ExecuteAsync();
     }
 
     [HttpPost("price-history-data")]
-    public async Task<IActionResult> GetPriceHistoryData([FromQuery] CoinCapHistoryDataRequestDto dto)
+    public async Task<IActionResult> GetPriceHistoryDataAsync([FromQuery] CoinCapHistoryDataRequestDto dto)
     {
-        await _coinCapApiService.GetPriceHistoryByIdAsync(dto);
-
-        return Ok();
+        return await _getPriceHistoryDataCoinCapCommand.ExecuteAsync();
     }
 }

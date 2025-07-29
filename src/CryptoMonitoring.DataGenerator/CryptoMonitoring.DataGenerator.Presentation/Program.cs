@@ -26,6 +26,7 @@ try
 
     builder.Services.AddPersistence(builder.Configuration);
     builder.Services.AddApplication();
+    builder.Services.AddCommands();
 
     var app = builder.Build();
 

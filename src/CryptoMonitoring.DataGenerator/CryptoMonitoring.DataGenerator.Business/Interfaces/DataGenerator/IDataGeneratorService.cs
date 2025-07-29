@@ -1,9 +1,9 @@
-﻿using CryptoMonitoring.DataGenerator.Business.DTOs.DataGenerator;
+﻿using CryptoMonitoring.Common.DTOs.DataGenerator;
 
 namespace CryptoMonitoring.DataGenerator.Business.Interfaces.DataGenerator;
 
 public interface IDataGeneratorService
 {
-    Task GenerateMarketDataAsync(GenerateDataRequestDto dto);
-    Task GeneratePriceHistoryDataAsync(GenerateDataRequestDto dto);
+    Task<GenerateDataResponseDto> GenerateMarketDataAsync(GenerateDataRequestDto dto);
+    Task<GenerateDataResponseDto> GeneratePriceHistoryDataAsync(GenerateDataRequestDto dto);
 }

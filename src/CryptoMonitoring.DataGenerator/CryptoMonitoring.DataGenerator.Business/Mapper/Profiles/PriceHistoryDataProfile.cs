@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
+using CryptoMonitoring.Common.DTOs.CoinCapApi;
 using CryptoMonitoring.DataGenerator.Business.Mapper.Converters;
 using CryptoMonitoring.Models.Entities;
 

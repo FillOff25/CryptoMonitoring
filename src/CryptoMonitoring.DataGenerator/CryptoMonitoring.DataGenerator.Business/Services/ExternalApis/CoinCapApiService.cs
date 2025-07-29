@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CryptoMonitoring.DataGenerator.Business.DTOs.CoinCapApi;
+using CryptoMonitoring.Common.DTOs.CoinCapApi;
 using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 using CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 using CryptoMonitoring.Models.Entities;
@@ -28,7 +28,7 @@ public class CoinCapApiService : ICoinCapApiService
         _mapper = mapper;
     }
 
-    public async Task GetCryptoCurrencyAsync()
+    public async Task<GetCoinCapDataResponseDto> GetCryptoCurrencyAsync()
     {
         try
         {
@@ -36,7 +36,7 @@ public class CoinCapApiService : ICoinCapApiService
 
             if (entities?.Data == null || entities.Data.Count == 0)
             {
-                return;
+                return new GetCoinCapDataResponseDto(0);
             }
 
             var cryptoCurrencies = _mapper.Map<List<CryptoCurrency>>(entities.Data);
@@ -70,6 +70,8 @@ public class CoinCapApiService : ICoinCapApiService
 
                 Log.Information($"Successfully retrieved cryptocurrency data from CoinCap Api");
             }
+
+            return new GetCoinCapDataResponseDto(addedAndUpdatedCount);
         }
         catch (Exception ex)
         {
@@ -78,7 +80,7 @@ public class CoinCapApiService : ICoinCapApiService
         }
     }
 
-    public async Task GetMarketDataAsync()
+    public async Task<GetCoinCapDataResponseDto> GetMarketDataAsync()
     {
         try
         {
@@ -86,7 +88,7 @@ public class CoinCapApiService : ICoinCapApiService
 
             if (entities?.Data == null || entities.Data.Count == 0)
             {
-                return;
+                return new GetCoinCapDataResponseDto(0);
             }
 
             var addedCount = 0;
@@ -117,6 +119,8 @@ public class CoinCapApiService : ICoinCapApiService
 
                 Log.Information($"Market data successfully retrieved and changes applied to the database from CoinCap Api");
             }
+
+            return new GetCoinCapDataResponseDto(addedCount);
         }
         catch (Exception ex)
         {
@@ -125,7 +129,7 @@ public class CoinCapApiService : ICoinCapApiService
         }
     }
 
-    public async Task GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto)
+    public async Task<GetCoinCapDataResponseDto> GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto)
     {
         try
         {
@@ -133,7 +137,7 @@ public class CoinCapApiService : ICoinCapApiService
             
             if (cryptoCurrency == null)
             {
-                return;
+                return new GetCoinCapDataResponseDto(0);
             }
 
             var entities = await _externalApiHttpClient.GetDataAsync<CoinCapResponseDto<List<CoinCapHistoryDataResponseDto>>>(
@@ -141,7 +145,7 @@ public class CoinCapApiService : ICoinCapApiService
 
             if (entities?.Data == null || entities.Data.Count == 0)
             {
-                return;
+                return new GetCoinCapDataResponseDto(0);
             }
 
             var priceHistoryData = _mapper.Map<List<PriceHistoryData>>(entities.Data);
@@ -165,6 +169,8 @@ public class CoinCapApiService : ICoinCapApiService
 
                 Log.Information($"Successfully retrieved price history data from CoinCap Api");
             }
+
+            return new GetCoinCapDataResponseDto(addedCount);
         }
         catch (Exception ex)
         {

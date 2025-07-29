@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CryptoMonitoring.DataGenerator.Business.DTOs.CoinGeckoApi;
+namespace CryptoMonitoring.Common.DTOs.CoinGeckoApi;
 
 public class CoinGeckoHistoricalChartDataResponseDto
 {

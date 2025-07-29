@@ -1,5 +1,5 @@
-﻿using CryptoMonitoring.DataGenerator.Business.DTOs.DataGenerator;
-using CryptoMonitoring.DataGenerator.Business.Interfaces.DataGenerator;
+﻿using CryptoMonitoring.Common.DTOs.DataGenerator;
+using CryptoMonitoring.DataGenerator.Business.Commands.DataGenerator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
@@ -8,26 +8,26 @@ namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
 [Route("/api/data-generator")]
 public class DataGeneratorController : ControllerBase
 {
-    private readonly IDataGeneratorService _dataGeneratorService;
+    private readonly GenerateMarketDataCommand _generateMarketDataCommand;
+    private readonly GeneratePriceHistoryDataCommand _generatePriceHistoryDataCommand;
 
-    public DataGeneratorController(IDataGeneratorService dataGeneratorService)
+    public DataGeneratorController(
+        GenerateMarketDataCommand generateMarketDataCommand, 
+        GeneratePriceHistoryDataCommand generatePriceHistoryDataCommand)
     {
-        _dataGeneratorService = dataGeneratorService;
+        _generateMarketDataCommand = generateMarketDataCommand;
+        _generatePriceHistoryDataCommand = generatePriceHistoryDataCommand;
     }
 
     [HttpPost("market-data")]
     public async Task<IActionResult> GenerateMarketDataAsync([FromQuery] GenerateDataRequestDto dto)
     {
-        await _dataGeneratorService.GenerateMarketDataAsync(dto);
-
-        return Ok();
+        return await _generateMarketDataCommand.ExecuteAsync(dto);
     }
 
     [HttpPost("price-history-data")]
     public async Task<IActionResult> GeneratePriceHistoryDataAsync([FromQuery] GenerateDataRequestDto dto)
     {
-        await _dataGeneratorService.GeneratePriceHistoryDataAsync(dto);
-
-        return Ok();
+        return await _generatePriceHistoryDataCommand.ExecuteAsync(dto);
     }
 }

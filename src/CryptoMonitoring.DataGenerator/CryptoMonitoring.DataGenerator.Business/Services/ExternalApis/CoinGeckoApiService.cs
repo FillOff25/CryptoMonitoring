@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CryptoMonitoring.DataGenerator.Business.DTOs.CoinGeckoApi;
+using CryptoMonitoring.Common.DTOs.CoinGeckoApi;
 using CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 using CryptoMonitoring.DataGenerator.Persistence.Interfaces;
 using CryptoMonitoring.Models.Entities;
@@ -28,7 +28,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
         _mapper = mapper;
     }
 
-    public async Task GetCryptoCurrencyAsync()
+    public async Task<GetCoinGeckoDataResponseDto> GetCryptoCurrencyAsync()
     {
         try
         {
@@ -36,7 +36,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             if (entities == null)
             {
-                return;
+                return new GetCoinGeckoDataResponseDto(0);
             }
 
             var newCryptoCurrencies = _mapper.Map<List<CryptoCurrency>>(entities);
@@ -83,6 +83,8 @@ public class CoinGeckoApiService : ICoinGeckoApiService
             {
                 Log.Information("Successfully retrieved cryptocurrency data from CoinGecko Api, but no new cryptocurrencies were added as all already existed");
             }
+
+            return new GetCoinGeckoDataResponseDto(addedAndUpdatedCount);
         }
         catch (Exception ex)
         {
@@ -91,7 +93,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
         }
     }
 
-    public async Task GetMarketDataByIdAsync(CoinGeckoCoinWithMarketDataRequestDto dto)
+    public async Task<GetCoinGeckoMarketDataByIdResponseDto> GetMarketDataByIdAsync(CoinGeckoCoinWithMarketDataRequestDto dto)
     {
         try
         {
@@ -99,7 +101,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             if (cryptoCurrency == null)
             {
-                return;
+                return new GetCoinGeckoMarketDataByIdResponseDto(string.Empty, string.Empty, DateTime.UtcNow);
             }
 
             var entity = await _externalApiHttpClient.GetDataAsync<List<CoinGeckoCoinWithMarketDataResponseDto>>(
@@ -107,7 +109,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             if (entity == null)
             {
-                return;
+                return new GetCoinGeckoMarketDataByIdResponseDto(string.Empty, string.Empty, DateTime.UtcNow);
             }
 
             var newMarketData = _mapper.Map<List<MarketData>>(entity);
@@ -124,6 +126,8 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
                 Log.Information($"Market data successfully retrieved and changes applied to the database from CoinGecko Api");
             }
+
+            return new GetCoinGeckoMarketDataByIdResponseDto(cryptoCurrency.Name, cryptoCurrency.Symbol, newMarketData[0].Timestamp);
         }
         catch (Exception ex)
         {
@@ -132,7 +136,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
         }
     }
 
-    public async Task GetPriceHistoryDataByIdAsync(CoinGeckoHistoricalChartDataRequestDto dto)
+    public async Task<GetCoinGeckoPriceHistoryDataByIdResponseDto> GetPriceHistoryDataByIdAsync(CoinGeckoHistoricalChartDataRequestDto dto)
     {
         try
         {
@@ -140,7 +144,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             if (cryptoCurrency == null)
             {
-                return;
+                return new GetCoinGeckoPriceHistoryDataByIdResponseDto(string.Empty, string.Empty, 0);
             }
 
             var entity = await _externalApiHttpClient.GetDataAsync<CoinGeckoHistoricalChartDataResponseDto>(
@@ -148,7 +152,7 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
             if (entity == null)
             {
-                return;
+                return new GetCoinGeckoPriceHistoryDataByIdResponseDto(string.Empty, string.Empty, 0);
             }
 
             var priceHistoryData = _mapper.Map<List<PriceHistoryData>>(entity.Prices);
@@ -172,6 +176,8 @@ public class CoinGeckoApiService : ICoinGeckoApiService
 
                 Log.Information($"Successfully retrieved price history data from CoinGecko Api");
             }
+
+            return new GetCoinGeckoPriceHistoryDataByIdResponseDto(cryptoCurrency.Name, cryptoCurrency.Symbol, addedCount);
         }
         catch (Exception ex)
         {

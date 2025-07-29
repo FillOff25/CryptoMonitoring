@@ -1,4 +1,4 @@
-﻿namespace CryptoMonitoring.DataGenerator.Business.DTOs.DataGenerator;
+﻿namespace CryptoMonitoring.Common.DTOs.DataGenerator;
 
 public class GenerateDataRequestDto
 {
