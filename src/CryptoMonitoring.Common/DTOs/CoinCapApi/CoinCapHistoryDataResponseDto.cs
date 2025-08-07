@@ -12,7 +12,4 @@ public class CoinCapHistoryDataResponseDto
 
     [JsonProperty("date")]
     public DateTime Date { get; set; }
-
-    [JsonProperty("circulatingSupply")]
-    public string? CirculatingSupply { get; set; }
 }

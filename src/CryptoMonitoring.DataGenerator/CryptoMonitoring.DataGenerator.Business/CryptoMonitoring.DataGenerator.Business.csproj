@@ -12,11 +12,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CryptoMonitoring.Common\CryptoMonitoring.Common.csproj" />
-    <ProjectReference Include="..\CryptoMonitoring.DataGenerator.Persistence\CryptoMonitoring.DataGenerator.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

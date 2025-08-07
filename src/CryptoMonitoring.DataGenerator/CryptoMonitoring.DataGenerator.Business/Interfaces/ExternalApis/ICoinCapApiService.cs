@@ -4,7 +4,7 @@ namespace CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 
 public interface ICoinCapApiService
 {
-    Task<GetCoinCapDataResponseDto> GetCryptoCurrencyAsync();
-    Task<GetCoinCapDataResponseDto> GetMarketDataAsync();
-    Task<GetCoinCapDataResponseDto> GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto);
+    Task<CoinCapResponseDto<List<CoinCapAssetResponseDto>>> GetCryptoCurrencyAsync();
+    Task<CoinCapResponseDto<List<CoinCapAssetResponseDto>>> GetMarketDataAsync();
+    Task<CoinCapPriceHistoryDataRabbitMQResponseDto> GetPriceHistoryByIdAsync(CoinCapHistoryDataRequestDto dto);
 }

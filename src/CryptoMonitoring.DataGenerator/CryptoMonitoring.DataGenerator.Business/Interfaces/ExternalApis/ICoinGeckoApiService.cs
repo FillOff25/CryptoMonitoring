@@ -4,7 +4,7 @@ namespace CryptoMonitoring.DataGenerator.Business.Interfaces.ExternalApis;
 
 public interface ICoinGeckoApiService
 {
-    Task<GetCoinGeckoDataResponseDto> GetCryptoCurrencyAsync();
-    Task<GetCoinGeckoMarketDataByIdResponseDto> GetMarketDataByIdAsync(CoinGeckoCoinWithMarketDataRequestDto dto);
-    Task<GetCoinGeckoPriceHistoryDataByIdResponseDto> GetPriceHistoryDataByIdAsync(CoinGeckoHistoricalChartDataRequestDto dto);
+    Task<List<CoinGeckoCoinResponseDto>> GetCryptoCurrencyAsync();
+    Task<CoinGeckoMarketDataByIdRabbitMQResponseDto> GetMarketDataByIdAsync(CoinGeckoCoinWithMarketDataRequestDto dto);
+    Task<CoinGeckoPriceHistoryDataByIdRabbitMQResponseDto> GetPriceHistoryDataByIdAsync(CoinGeckoHistoricalChartDataRequestDto dto);
 }

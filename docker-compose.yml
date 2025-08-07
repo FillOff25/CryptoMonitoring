@@ -12,6 +12,11 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   postgres:
     container_name: postgres
@@ -61,16 +66,23 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   data_processor_service:
     container_name: data_processor_service
     build:
-      context: ./src/CryptoMonitoring.DataProcessor
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/CryptoMonitoring.DataProcessor/CryptoMonitoring.DataProcessor.Presentation/Dockerfile
     ports:
       - "8081:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   notification_service:
     container_name: notification_service

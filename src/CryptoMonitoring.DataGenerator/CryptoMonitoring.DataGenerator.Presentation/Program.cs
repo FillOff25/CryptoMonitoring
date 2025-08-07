@@ -1,5 +1,7 @@
+using CryptoMonitoring.Common.Extensions;
+using CryptoMonitoring.Common.Middlewares;
+using CryptoMonitoring.Common.Persistence;
 using CryptoMonitoring.DataGenerator.Business;
-using CryptoMonitoring.DataGenerator.Persistence;
 using Serilog;
 using Serilog.Events;
 
@@ -25,10 +27,14 @@ try
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddPersistence(builder.Configuration);
-    builder.Services.AddApplication();
+    builder.Services.AddServices();
     builder.Services.AddCommands();
+    builder.Services.AddRabbitMQConnectionFactory();
+    builder.Services.AddAutoMapper();
 
     var app = builder.Build();
+
+    app.UseMiddleware<ExceptionMiddleware>();
 
     if (app.Environment.IsDevelopment())
     {

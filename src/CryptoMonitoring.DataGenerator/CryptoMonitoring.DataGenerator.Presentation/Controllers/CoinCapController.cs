@@ -37,6 +37,6 @@ public class CoinCapController : ControllerBase
     [HttpPost("price-history-data")]
     public async Task<IActionResult> GetPriceHistoryDataAsync([FromQuery] CoinCapHistoryDataRequestDto dto)
     {
-        return await _getPriceHistoryDataCoinCapCommand.ExecuteAsync();
+        return await _getPriceHistoryDataCoinCapCommand.ExecuteAsync(dto);
     }
 }
