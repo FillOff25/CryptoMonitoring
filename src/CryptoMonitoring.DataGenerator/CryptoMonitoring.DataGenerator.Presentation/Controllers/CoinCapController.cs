@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CryptoMonitoring.DataGenerator.Presentation.Controllers;
 
 [ApiController]
-[Route("/api/coincap")]
+[Route("/api/coin-cap")]
 public class CoinCapController : ControllerBase
 {
     private readonly GetCryptoCurrenciesCoinCapCommand _getCryptoCurrenciesCoinCapCommand;

@@ -3,14 +3,11 @@ using CryptoMonitoring.Common.Middlewares;
 using CryptoMonitoring.Common.Persistence;
 using CryptoMonitoring.DataGenerator.Business;
 using Serilog;
-using Serilog.Events;
+
+DotNetEnv.Env.Load();
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Default", LogEventLevel.Information)
-    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-    .WriteTo.Console()
-    .CreateLogger();
+    .ConfigureLogger(Environment.GetEnvironmentVariable("CRYPTO_DATAGENERATOR_MONITORING_LOGS_DB_CONNECTION_STRING")!);
 
 try
 {
@@ -18,7 +15,6 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    DotNetEnv.Env.Load();
     builder.Configuration.AddEnvironmentVariables();
 
     builder.Services.AddSerilog();
