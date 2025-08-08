@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<ICryptoCurrenciesRepository, CryptoCurrenciesRepository>();
         services.AddScoped<IMarketDataRepository, MarketDataRepository>();
         services.AddScoped<IPriceHistoryDataRepository, PriceHistoryDataRepository>();
+        services.AddScoped<ITechnicalIndicatorsRepository, TechnicalIndicatorsRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 

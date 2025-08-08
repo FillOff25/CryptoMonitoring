@@ -1,4 +1,7 @@
-﻿using CryptoMonitoring.DataProcessor.Business.Interfaces.Processing;
+﻿using CryptoMonitoring.DataProcessor.Business.Commands.TechnicalIndicators;
+using CryptoMonitoring.DataProcessor.Business.Interfaces;
+using CryptoMonitoring.DataProcessor.Business.Interfaces.Processing;
+using CryptoMonitoring.DataProcessor.Business.Services;
 using CryptoMonitoring.DataProcessor.Business.Services.Processing;
 using CryptoMonitoring.DataProcessor.Business.Services.RabbitMQ.CoinCap;
 using CryptoMonitoring.DataProcessor.Business.Services.RabbitMQ.CoinGecko;
@@ -14,6 +17,7 @@ public static class DependencyInjection
         services.AddScoped<ICoinCapProcessingService, CoinCapProcessingService>();
         services.AddScoped<ICoinGeckoProcessingService, CoinGeckoProcessingService>();
         services.AddScoped<ISyntheticDataProcessingService, SyntheticDataProcessingService>();
+        services.AddScoped<ITechnicalIndicatorsService, TechnicalIndicatorsService>();
 
         services.AddHostedService<RabbitMQCoinCapCryptoCurrencyConsumerService>();
         services.AddHostedService<RabbitMQCoinCapMarketDataConsumerService>();
@@ -25,6 +29,13 @@ public static class DependencyInjection
 
         services.AddHostedService<RabbitMQSyntheticMarketDataConsumerService>();
         services.AddHostedService<RabbitMQSyntheticPriceHistoryDataConsumerService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCommands(this IServiceCollection services)
+    {
+        services.AddScoped<CalculateTechnicalIndicatorCommand>();
 
         return services;
     }

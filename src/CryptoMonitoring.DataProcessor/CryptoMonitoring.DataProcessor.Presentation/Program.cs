@@ -3,6 +3,7 @@ using CryptoMonitoring.Common.Middlewares;
 using CryptoMonitoring.Common.Persistence;
 using CryptoMonitoring.DataProcessor.Business;
 using Serilog;
+using System.Text.Json.Serialization;
 
 DotNetEnv.Env.Load();
 
@@ -18,12 +19,18 @@ try
     builder.Configuration.AddEnvironmentVariables();
 
     builder.Services.AddSerilog();
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        .AddJsonOptions(opt =>
+        {
+            opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    
     builder.Services.AddPersistence(builder.Configuration);
     builder.Services.AddServices();
+    builder.Services.AddCommands();
     builder.Services.AddRabbitMQConnectionFactory();
     builder.Services.AddAutoMapper();
 

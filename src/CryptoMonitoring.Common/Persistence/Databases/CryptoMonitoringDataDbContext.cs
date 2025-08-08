@@ -11,7 +11,8 @@ public class CryptoMonitoringDataDbContext : DbContext
     { }
 
     public DbSet<CryptoCurrency> CryptoCurrencies { get; set; }
-    public DbSet<MarketData> MarketDatas { get; set; }
+    public DbSet<MarketData> MarketData { get; set; }
+    public DbSet<PriceHistoryData> PriceHistoryData { get; set; }
     public DbSet<TechnicalIndicator> TechnicalIndicators { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

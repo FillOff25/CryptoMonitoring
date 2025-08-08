@@ -1,7 +1,6 @@
 ﻿using CryptoMonitoring.Common.Persistence.Databases;
 using CryptoMonitoring.Common.Persistence.Interfaces;
 using CryptoMonitoring.Common.Persistence.Repositories;
-using CryptoMonitoring.Models.Entities;
 
 namespace CryptoMonitoring.Common.Persistence.UnitOfWork;
 
@@ -11,7 +10,7 @@ public class UnitOfWork : IUnitOfWork
 
     private ICryptoCurrenciesRepository? _cryptoCurrenciesRepository;
     private IMarketDataRepository? _marketDataRepository;
-    private IGenericRepository<TechnicalIndicator, Guid>? _technicalIndicatorsRepository;
+    private ITechnicalIndicatorsRepository? _technicalIndicatorsRepository;
     private IPriceHistoryDataRepository? _priceHistoryDataRepository;
 
     public UnitOfWork(CryptoMonitoringDataDbContext dbContext)
@@ -37,11 +36,11 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IGenericRepository<TechnicalIndicator, Guid> TechnicalIndicators
+    public ITechnicalIndicatorsRepository TechnicalIndicators
     {
         get
         {
-            _technicalIndicatorsRepository ??= new GenericRepository<TechnicalIndicator, Guid>(_dbContext);
+            _technicalIndicatorsRepository ??= new TechnicalIndicatorsRepository(_dbContext);
             return _technicalIndicatorsRepository;
         }
     }
