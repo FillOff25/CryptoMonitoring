@@ -33,6 +33,7 @@ try
     builder.Services.AddCommands();
     builder.Services.AddRabbitMQConnectionFactory();
     builder.Services.AddAutoMapper();
+    builder.Services.AddRedis(builder.Configuration);
 
     var app = builder.Build();
 

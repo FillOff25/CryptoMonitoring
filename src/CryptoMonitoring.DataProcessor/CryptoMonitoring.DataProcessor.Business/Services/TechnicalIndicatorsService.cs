@@ -1,5 +1,6 @@
 ﻿using CryptoMonitoring.Common.DTOs;
 using CryptoMonitoring.Common.Exceptions;
+using CryptoMonitoring.Common.Interfaces.Caching;
 using CryptoMonitoring.Common.Persistence.Interfaces;
 using CryptoMonitoring.DataProcessor.Business.Interfaces;
 using CryptoMonitoring.Models.Entities;
@@ -11,16 +12,27 @@ namespace CryptoMonitoring.DataProcessor.Business.Services;
 public class TechnicalIndicatorsService : ITechnicalIndicatorsService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IRedisCacherService _redisCacherService;
 
-    public TechnicalIndicatorsService(IUnitOfWork unitOfWork)
+    public TechnicalIndicatorsService(
+        IUnitOfWork unitOfWork, 
+        IRedisCacherService redisCacherService)
     {
         _unitOfWork = unitOfWork;
+        _redisCacherService = redisCacherService;
     }
 
     public async Task CalculateTechnicalIndicatorAsync(CalculateTechnicalIndicatorRequestDto dto)
     {
-        var cryptoCurrency = await _unitOfWork.CryptoCurrencies.GetByNameAndSymbolAsync(dto.Name, dto.Symbol)
-            ?? throw new HttpException($"Cryptocurrency (name: {dto.Name}, symbol: {dto.Symbol}) does not exist in database", 400);
+        var cryptoCurrency = await _redisCacherService.GetAsync<CryptoCurrency>(_redisCacherService.GenerateCryptoCurrencyKey(dto.Name, dto.Symbol));
+
+        if (cryptoCurrency == null)
+        {
+            cryptoCurrency = await _unitOfWork.CryptoCurrencies.GetByNameAndSymbolAsync(dto.Name, dto.Symbol)
+                ?? throw new HttpException($"Cryptocurrency (name: {dto.Name}, symbol: {dto.Symbol}) does not exist in database", 400);
+
+            await _redisCacherService.SetAsync(_redisCacherService.GenerateCryptoCurrencyKey(dto.Name, dto.Symbol), cryptoCurrency);
+        }
 
         decimal? value = 0;
 

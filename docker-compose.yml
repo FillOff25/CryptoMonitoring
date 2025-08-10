@@ -57,8 +57,14 @@ services:
     image: redis:8.2-rc1
     ports:
       - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "PING"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   data_generator_service:
     container_name: data_generator_service
@@ -76,6 +82,8 @@ services:
         condition: service_healthy
       mongo:
         condition: service_healthy
+      redis:
+        condition: service_healthy
 
   data_processor_service:
     container_name: data_processor_service
@@ -92,6 +100,8 @@ services:
       rabbitmq:
         condition: service_healthy
       mongo:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
   notification_service:
