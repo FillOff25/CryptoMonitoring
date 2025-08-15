@@ -6,4 +6,5 @@ namespace CryptoMonitoring.Common.Persistence.Interfaces;
 public interface ITechnicalIndicatorsRepository : IGenericRepository<TechnicalIndicator, Guid>
 {
     Task<bool> IsExist(Guid cryptoCurrencyId, IndicatorTypeEnum type, DateTime timestamp);
+    IQueryable<TechnicalIndicator> GetByCryptoCurrencyId(Guid cryptoCurrencyId);
 }

@@ -14,7 +14,7 @@ public class PriceHistoryDataRepository : GenericRepository<PriceHistoryData, Gu
     public async Task<bool> IsExist(Guid cryptoCurrencyId, DateTime timestamp)
     {
         return await DbSet.AnyAsync(phd =>
-            phd.CryptoCurrencyId == cryptoCurrencyId && phd.Timestamp == timestamp);
+            phd.CryptoCurrencyId == cryptoCurrencyId && phd.Timestamp.Date == timestamp.Date);
     }
 
     public IQueryable<PriceHistoryData> GetByCryptoCurrencyId(Guid cryptoCurrencyId)

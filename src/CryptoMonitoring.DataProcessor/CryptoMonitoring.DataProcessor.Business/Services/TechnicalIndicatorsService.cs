@@ -1,4 +1,4 @@
-﻿using CryptoMonitoring.Common.DTOs;
+﻿using CryptoMonitoring.Common.DTOs.DataProcessor;
 using CryptoMonitoring.Common.Exceptions;
 using CryptoMonitoring.Common.Interfaces.Caching;
 using CryptoMonitoring.Common.Persistence.Interfaces;

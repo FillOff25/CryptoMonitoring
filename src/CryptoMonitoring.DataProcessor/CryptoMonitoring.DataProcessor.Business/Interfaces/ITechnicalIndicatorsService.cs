@@ -1,4 +1,4 @@
-﻿using CryptoMonitoring.Common.DTOs;
+﻿using CryptoMonitoring.Common.DTOs.DataProcessor;
 
 namespace CryptoMonitoring.DataProcessor.Business.Interfaces
 {

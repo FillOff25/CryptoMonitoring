@@ -14,7 +14,15 @@ public class TechnicalIndicatorsRepository : GenericRepository<TechnicalIndicato
 
     public async Task<bool> IsExist(Guid cryptoCurrencyId, IndicatorTypeEnum type, DateTime timestamp)
     {
-        return await DbSet.AnyAsync(
-            ti => ti.CryptoCurrencyId == cryptoCurrencyId && ti.IndicatorType == type && ti.Timestamp == timestamp);
+        return await DbSet.AnyAsync(ti => 
+            ti.CryptoCurrencyId == cryptoCurrencyId && 
+            ti.IndicatorType == type && 
+            ti.Timestamp.Date == timestamp.Date);
+    }
+
+    public IQueryable<TechnicalIndicator> GetByCryptoCurrencyId(Guid cryptoCurrencyId)
+    {
+        return DbSet.AsNoTracking()
+            .Where(ti => ti.CryptoCurrencyId == cryptoCurrencyId);
     }
 }

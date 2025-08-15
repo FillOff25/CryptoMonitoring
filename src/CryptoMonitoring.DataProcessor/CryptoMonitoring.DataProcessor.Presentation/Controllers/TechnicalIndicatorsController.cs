@@ -1,4 +1,4 @@
-﻿using CryptoMonitoring.Common.DTOs;
+﻿using CryptoMonitoring.Common.DTOs.DataProcessor;
 using CryptoMonitoring.DataProcessor.Business.Commands.TechnicalIndicators;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
 ﻿using CryptoMonitoring.Models.Enums;
 
-namespace CryptoMonitoring.Common.DTOs;
+namespace CryptoMonitoring.Common.DTOs.DataProcessor;
 
 public record CalculateTechnicalIndicatorRequestDto(
     string Name,

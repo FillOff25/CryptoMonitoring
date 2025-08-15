@@ -1,4 +1,4 @@
-﻿using CryptoMonitoring.Common.DTOs;
+﻿using CryptoMonitoring.Common.DTOs.DataProcessor;
 using CryptoMonitoring.Common.Extensions;
 using CryptoMonitoring.Common.Interfaces;
 using CryptoMonitoring.DataProcessor.Business.Interfaces;
