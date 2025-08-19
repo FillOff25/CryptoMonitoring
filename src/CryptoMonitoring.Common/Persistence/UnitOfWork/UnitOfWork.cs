@@ -10,9 +10,10 @@ public class UnitOfWork : IUnitOfWork
 
     private ICryptoCurrenciesRepository? _cryptoCurrenciesRepository;
     private IMarketDataRepository? _marketDataRepository;
-    private ITechnicalIndicatorsRepository? _technicalIndicatorsRepository;
     private IPriceHistoryDataRepository? _priceHistoryDataRepository;
+    private ITechnicalIndicatorsRepository? _technicalIndicatorsRepository;
     private IExcelReportsRepository? _excelReportsRepository;
+    private IUsersRepository? _usersRepository;
 
     public UnitOfWork(CryptoMonitoringDataDbContext dbContext)
     {
@@ -37,6 +38,15 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IPriceHistoryDataRepository PriceHistoryData
+    {
+        get
+        {
+            _priceHistoryDataRepository ??= new PriceHistoryDataRepository(_dbContext);
+            return _priceHistoryDataRepository;
+        }
+    }
+
     public ITechnicalIndicatorsRepository TechnicalIndicators
     {
         get
@@ -55,12 +65,12 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IPriceHistoryDataRepository PriceHistoryData
+    public IUsersRepository Users
     {
         get
         {
-            _priceHistoryDataRepository ??= new PriceHistoryDataRepository(_dbContext);
-            return _priceHistoryDataRepository;
+            _usersRepository ??= new UsersRepository(_dbContext);
+            return _usersRepository;
         }
     }
 

@@ -271,7 +271,7 @@ public class ExcelReportService : IExcelReportService
         var cryptoCurrency = await _cryptoCurrencyService.GetCryptoCurrencyWithCache(dto.Name, dto.Symbol);
 
         var createdAt = DateTime.UtcNow;
-        var existExcelReport = await _unitOfWork.ExcelReports.GetReportAsync(cryptoCurrency.Id, ExcelReportTypeEnum.VolatilityAnalisis, createdAt);
+        var existExcelReport = await _unitOfWork.ExcelReports.GetReportAsync(cryptoCurrency.Id, ExcelReportTypeEnum.VolatilityReport, createdAt);
         if (existExcelReport != null)
         {
             return new GenerateReportResponseDto(existExcelReport.Id, existExcelReport.OriginalFileName, existExcelReport.ReportType, existExcelReport.CreatedAt);
@@ -334,7 +334,7 @@ public class ExcelReportService : IExcelReportService
         var excelReport = await SaveFileAsync(
             workbook,
             $"Volatility_Report_{dto.Name}_{dto.Symbol}_{createdAt:yyyy-MM-dd}",
-            ExcelReportTypeEnum.VolatilityAnalisis,
+            ExcelReportTypeEnum.VolatilityReport,
             createdAt,
             cryptoCurrency.Id);
 

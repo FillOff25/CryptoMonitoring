@@ -15,6 +15,7 @@ public class CryptoMonitoringDataDbContext : DbContext
     public DbSet<PriceHistoryData> PriceHistoryData { get; set; }
     public DbSet<TechnicalIndicator> TechnicalIndicators { get; set; }
     public DbSet<ExcelReport> ExcelReports { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,9 +6,10 @@ public interface IUnitOfWork : IAsyncDisposable
 {
     ICryptoCurrenciesRepository CryptoCurrencies { get; }
     IMarketDataRepository MarketData { get; }
-    ITechnicalIndicatorsRepository TechnicalIndicators { get; }
     IPriceHistoryDataRepository PriceHistoryData { get; }
+    ITechnicalIndicatorsRepository TechnicalIndicators { get; }
     IExcelReportsRepository ExcelReports { get; }
+    IUsersRepository Users { get; }
 
     Task SaveAsync();
 }
