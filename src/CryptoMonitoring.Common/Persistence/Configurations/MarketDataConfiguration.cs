@@ -8,7 +8,7 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
 {
     public void Configure(EntityTypeBuilder<MarketData> builder)
     {
-        builder.ToTable("market_datas");
+        builder.ToTable("market_data");
 
         builder.HasKey(md => md.Id);
 
@@ -33,7 +33,7 @@ public class MarketDataConfiguration : IEntityTypeConfiguration<MarketData>
             .HasColumnType("decimal");
 
         builder.Property(md => md.Change24hPercent)
-            .HasColumnName("сhange_24h_зercent")
+            .HasColumnName("сhange_24h_percent")
             .HasColumnType("decimal");
 
         builder.Property(md => md.CirculatingSupply)

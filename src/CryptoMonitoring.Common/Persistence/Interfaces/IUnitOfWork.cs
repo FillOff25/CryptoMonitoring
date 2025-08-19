@@ -8,6 +8,7 @@ public interface IUnitOfWork : IAsyncDisposable
     IMarketDataRepository MarketData { get; }
     ITechnicalIndicatorsRepository TechnicalIndicators { get; }
     IPriceHistoryDataRepository PriceHistoryData { get; }
+    IExcelReportsRepository ExcelReports { get; }
 
     Task SaveAsync();
 }

@@ -8,7 +8,7 @@ public class PriceHistoryDataConfiguration : IEntityTypeConfiguration<PriceHisto
 {
     public void Configure(EntityTypeBuilder<PriceHistoryData> builder)
     {
-        builder.ToTable("price_history_datas");
+        builder.ToTable("price_history_data");
 
         builder.HasKey(phd => phd.Id);
 

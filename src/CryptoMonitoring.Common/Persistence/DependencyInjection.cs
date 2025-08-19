@@ -17,7 +17,11 @@ public static class DependencyInjection
         // Register DbContext in DI, configure and map custom enum types in database
         services.AddDbContext<CryptoMonitoringDataDbContext>(options =>
             options.UseNpgsql(configuration["CRYPTO_MONITORING_DATA_DB_CONNECTION_STRING"],
-                o => o.MapEnum<IndicatorTypeEnum>("indicator_type_enum")));
+                o =>
+                {
+                    o.MapEnum<IndicatorTypeEnum>("indicator_type_enum");
+                    o.MapEnum<ExcelReportTypeEnum>("excel_report_type_enum");
+                }));
 
         // Register repositories in DI
         services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
@@ -25,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IMarketDataRepository, MarketDataRepository>();
         services.AddScoped<IPriceHistoryDataRepository, PriceHistoryDataRepository>();
         services.AddScoped<ITechnicalIndicatorsRepository, TechnicalIndicatorsRepository>();
+        services.AddScoped<IExcelReportsRepository, ExcelReportsRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 

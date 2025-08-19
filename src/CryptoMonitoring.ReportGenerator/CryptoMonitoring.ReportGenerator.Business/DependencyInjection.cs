@@ -18,6 +18,9 @@ public static class DependencyInjection
     {
         services.AddScoped<GenerateDailyExcelReportCommand>();
         services.AddScoped<GenerateTechnicalAnalysisReportCommand>();
+        services.AddScoped<GenerateComparativeAnalysisReportCommand>();
+        services.AddScoped<GenerateVolatilityAnalysisReportCommand>();
+        services.AddScoped<DownloadReportCommand>();
 
         return services;
     }

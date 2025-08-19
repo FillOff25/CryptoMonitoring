@@ -4,7 +4,10 @@ namespace CryptoMonitoring.ReportGenerator.Business.Interfaces
 {
     public interface IExcelReportService
     {
-        Task<MemoryStream> GenerateDailyReportAsync(GenerateDailyReportRequestDto dto);
-        Task<MemoryStream> GenerateTechnicalAnalysisReportAsync(GenerateTechnicalAnalysisReportRequestDto dto);
+        Task<GenerateReportResponseDto> GenerateDailyReportAsync(GenerateDailyReportRequestDto dto);
+        Task<GenerateReportResponseDto> GenerateTechnicalAnalysisReportAsync(GenerateTechnicalAnalysisReportRequestDto dto);
+        Task<GenerateReportResponseDto> GenerateComparativeAnalysisReportAsync(GenerateComparativeAnalysisReportRequestDto dto);
+        Task<GenerateReportResponseDto> GenerateVolatilityAnalysisReportAsync(GenerateVolatilityAnalysisReportRequestDto dto);
+        Task<DownloadReportResponseDto> DownloadReportAsync(DownloadReportRequestDto dto);
     }
 }

@@ -113,6 +113,8 @@ services:
       - "8083:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    volumes:
+      - reports:/app/wwwroot/reports
     depends_on:
       postgres:
         condition: service_healthy
@@ -137,3 +139,4 @@ volumes:
   mongo_config:
   redis_data:
   rabbitmq_data:
+  reports:

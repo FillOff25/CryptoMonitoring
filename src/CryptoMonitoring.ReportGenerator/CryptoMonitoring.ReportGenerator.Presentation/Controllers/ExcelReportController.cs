@@ -10,30 +10,52 @@ public class ExcelReportController : ControllerBase
 {
     private readonly GenerateDailyExcelReportCommand _generateDailyExcelReportCommand;
     private readonly GenerateTechnicalAnalysisReportCommand _generateTechnicalAnalysisReportCommand;
+    private readonly GenerateComparativeAnalysisReportCommand _generateComparativeAnalysisReportCommand;
+    private readonly GenerateVolatilityAnalysisReportCommand _generateVolatilityAnalysisReportCommand;
+    private readonly DownloadReportCommand _downloadReportCommand;
 
     public ExcelReportController(
-        GenerateDailyExcelReportCommand generateDailyExcelReportCommand, 
-        GenerateTechnicalAnalysisReportCommand generateeTechnicalAnalysisReportCommand)
+        GenerateDailyExcelReportCommand generateDailyExcelReportCommand,
+        GenerateTechnicalAnalysisReportCommand generateeTechnicalAnalysisReportCommand,
+        GenerateComparativeAnalysisReportCommand generateComparativeAnalysisReportCommand,
+        GenerateVolatilityAnalysisReportCommand generateVolatilityAnalysisReportCommand,
+        DownloadReportCommand downloadReportCommand)
     {
         _generateDailyExcelReportCommand = generateDailyExcelReportCommand;
         _generateTechnicalAnalysisReportCommand = generateeTechnicalAnalysisReportCommand;
+        _generateComparativeAnalysisReportCommand = generateComparativeAnalysisReportCommand;
+        _generateVolatilityAnalysisReportCommand = generateVolatilityAnalysisReportCommand;
+        _downloadReportCommand = downloadReportCommand;
     }
 
-    [HttpGet("daily")]
+    [HttpPost("daily")]
     public async Task<IActionResult> GenerateDailyReportAsync([FromQuery] GenerateDailyReportRequestDto dto)
     {
-        var stream = await _generateDailyExcelReportCommand.ExecuteAsync(dto);
-        var fileName = $"Daily_Report_{dto.Name}_{dto.Symbol}_{DateTime.Now:yyyy-MM-dd}.xlsx";
-
-        return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        return await _generateDailyExcelReportCommand.ExecuteAsync(dto);
     }
 
-    [HttpGet("technical-analisis")]
+    [HttpPost("technical-analisis")]
     public async Task<IActionResult> GenerateTechnicalAnalysisReportAsync([FromQuery] GenerateTechnicalAnalysisReportRequestDto dto)
     {
-        var stream = await _generateTechnicalAnalysisReportCommand.ExecuteAsync(dto);
-        var fileName = $"Technical_Analisis_Report_{dto.Name}_{dto.Symbol}.xlsx";
+        return await _generateTechnicalAnalysisReportCommand.ExecuteAsync(dto);
+    }
 
-        return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+    [HttpPost("comparative-analisis")]
+    public async Task<IActionResult> GenerateTechnicalAnalysisReportAsync([FromBody] GenerateComparativeAnalysisReportRequestDto dto)
+    {
+        return await _generateComparativeAnalysisReportCommand.ExecuteAsync(dto);
+    }
+
+    [HttpPost("volatility-analisis")]
+    public async Task<IActionResult> GenerateVolatilityAnalysisReportAsync([FromBody] GenerateVolatilityAnalysisReportRequestDto dto)
+    {
+        return await _generateVolatilityAnalysisReportCommand.ExecuteAsync(dto);
+    }
+
+    [HttpGet("download")]
+    public async Task<IActionResult> DownloadReportAsync([FromQuery] DownloadReportRequestDto dto)
+    {
+        var response = await _downloadReportCommand.ExecuteAsync(dto);
+        return File(response.Stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", response.OriginalFileName);
     }
 }

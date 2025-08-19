@@ -1,10 +1,12 @@
 ﻿using CryptoMonitoring.Common.DTOs.ReportGenerator;
+using CryptoMonitoring.Common.Extensions;
 using CryptoMonitoring.Common.Interfaces;
 using CryptoMonitoring.ReportGenerator.Business.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitoring.ReportGenerator.Business.Commands;
 
-public class GenerateDailyExcelReportCommand : ICommand<GenerateDailyReportRequestDto, MemoryStream>
+public class GenerateDailyExcelReportCommand : ICommand<GenerateDailyReportRequestDto, IActionResult>
 {
     private readonly IExcelReportService _excelReportService;
 
@@ -13,8 +15,9 @@ public class GenerateDailyExcelReportCommand : ICommand<GenerateDailyReportReque
         _excelReportService = excelReportService;
     }
 
-    public async Task<MemoryStream> ExecuteAsync(GenerateDailyReportRequestDto request)
+    public async Task<IActionResult> ExecuteAsync(GenerateDailyReportRequestDto request)
     {
-        return await _excelReportService.GenerateDailyReportAsync(request);
+        return (await _excelReportService.GenerateDailyReportAsync(request))
+            .ToHttpResponse("Daily report generated successfully", 201);
     }
 }

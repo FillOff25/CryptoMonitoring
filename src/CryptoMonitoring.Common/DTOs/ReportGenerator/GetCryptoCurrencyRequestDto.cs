@@ -1,5 +1,5 @@
 ﻿namespace CryptoMonitoring.Common.DTOs.ReportGenerator;
 
-public record GenerateDailyReportRequestDto(
+public record GetCryptoCurrencyRequestDto(
     string Name,
     string Symbol);

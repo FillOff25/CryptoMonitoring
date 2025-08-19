@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private IMarketDataRepository? _marketDataRepository;
     private ITechnicalIndicatorsRepository? _technicalIndicatorsRepository;
     private IPriceHistoryDataRepository? _priceHistoryDataRepository;
+    private IExcelReportsRepository? _excelReportsRepository;
 
     public UnitOfWork(CryptoMonitoringDataDbContext dbContext)
     {
@@ -45,6 +46,15 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IExcelReportsRepository ExcelReports
+    {
+        get
+        {
+            _excelReportsRepository ??= new ExcelReportsRepository(_dbContext);
+            return _excelReportsRepository;
+        }
+    }
+
     public IPriceHistoryDataRepository PriceHistoryData
     {
         get
@@ -64,5 +74,4 @@ public class UnitOfWork : IUnitOfWork
         await _dbContext.DisposeAsync();
         GC.SuppressFinalize(this);
     }
-
 }
