@@ -4,5 +4,6 @@ namespace CryptoMonitoring.Common.Persistence.Interfaces;
 
 public interface IUsersRepository : IGenericRepository<User, Guid>
 {
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailAsync(string email);
+    Task<User?> GetByTelegramIdAsync(long telegramId);
 }

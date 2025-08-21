@@ -1,14 +1,14 @@
 using CryptoMonitoring.Common.Extensions;
 using CryptoMonitoring.Common.Middlewares;
 using CryptoMonitoring.Common.Persistence;
-using CryptoMonitoring.ReportGenerator.Business;
+using CryptoMonitoring.NotificationService.Business;
+using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Text.Json.Serialization;
 
 DotNetEnv.Env.Load();
 
 Log.Logger = new LoggerConfiguration()
-    .ConfigureLogger(Environment.GetEnvironmentVariable("CRYPTO_REPORTGENERATOR_MONITORING_LOGS_DB_CONNECTION_STRING")!);
+    .ConfigureLogger(Environment.GetEnvironmentVariable("CRYPTO_NOTIFICATIONSERVICE_MONITORING_LOGS_DB_CONNECTION_STRING")!);
 
 try
 {
@@ -16,24 +16,17 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Configuration.AddEnvironmentVariables();
-
     builder.Services.AddSerilog();
-    builder.Services.AddControllers()
-        .AddJsonOptions(opt =>
-        {
-            opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        });
+    builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Services.AddHttpContextAccessor();
 
+    builder.Services.AddAuth(builder.Configuration);
     builder.Services.AddPersistence(builder.Configuration);
-    builder.Services.AddServices();
-    builder.Services.AddCommands();
     builder.Services.AddRedis(builder.Configuration);
     builder.Services.AddAutoMapper();
     builder.Services.AddCommonServices();
+    builder.Services.AddServices();
+    builder.Services.AddCommands();
 
     var app = builder.Build();
 
@@ -46,8 +39,8 @@ try
     }
 
     await app.ApplyMigrationsAsync();
+    await app.SeedDataAsync(builder.Configuration);
 
-    app.UseStaticFiles();
     app.UseSerilogRequestLogging();
     app.UseHttpsRedirection();
     app.MapControllers();

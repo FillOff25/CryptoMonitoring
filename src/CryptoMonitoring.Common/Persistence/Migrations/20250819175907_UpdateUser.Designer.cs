@@ -4,6 +4,7 @@ using CryptoMonitoring.Common.Persistence.Databases;
 using CryptoMonitoring.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CryptoMonitoring.Common.Persistence.Migrations
 {
     [DbContext(typeof(CryptoMonitoringDataDbContext))]
-    partial class CryptoMonitoringDataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250819175907_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

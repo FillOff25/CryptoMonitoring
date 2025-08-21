@@ -11,9 +11,15 @@ public class UsersRepository : GenericRepository<User, Guid>, IUsersRepository
         : base(dbContext)
     { }
 
-    public async Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
         return await DbSet.AsNoTracking()
             .FirstOrDefaultAsync(u => u.Email == email);
+    }
+
+    public async Task<User?> GetByTelegramIdAsync(long telegramId)
+    {
+        return await DbSet.AsNoTracking()
+            .FirstOrDefaultAsync(u => u.TelegramId == telegramId && telegramId != -1);
     }
 }

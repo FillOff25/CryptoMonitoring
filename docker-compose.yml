@@ -104,6 +104,23 @@ services:
       redis:
         condition: service_healthy
 
+  notification_service:
+    container_name: notification_service
+    build:
+      context: .
+      dockerfile: src/CryptoMonitoring.NotificationService/CryptoMonitoring.NotificationService.Presentation/Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   report_generator_service:
     container_name: report_generator_service
     build:
@@ -122,16 +139,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-
-  notification_service:
-    container_name: notification_service
-    build:
-      context: ./src/CryptoMonitoring.NotificationService
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
 volumes:
   postgres_data:
