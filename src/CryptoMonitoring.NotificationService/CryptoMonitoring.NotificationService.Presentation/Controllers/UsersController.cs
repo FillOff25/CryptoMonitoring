@@ -1,5 +1,6 @@
 ﻿using CryptoMonitoring.Common.DTOs.Auth;
 using CryptoMonitoring.NotificationService.Business.Commands;
+using CryptoMonitoring.NotificationService.Business.Commands.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,7 +4,7 @@ using CryptoMonitoring.Common.Interfaces;
 using CryptoMonitoring.NotificationService.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CryptoMonitoring.NotificationService.Business.Commands;
+namespace CryptoMonitoring.NotificationService.Business.Commands.Auth;
 
 public class LoginUserCommand : ICommand<LoginUserRequestDto, IActionResult>
 {

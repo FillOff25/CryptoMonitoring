@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitoring.NotificationService.Business.Commands;
 
-public class RegisterUserCommand : ICommand<RegisterUserRequestDto, IActionResult>
+public class UpdateRoleCommand : ICommand<UpdateRoleRequestDto, IActionResult>
 {
     private readonly IUsersService _usersService;
 
-    public RegisterUserCommand(IUsersService usersService)
+    public UpdateRoleCommand(IUsersService usersService)
     {
         _usersService = usersService;
     }
 
-    public async Task<IActionResult> ExecuteAsync(RegisterUserRequestDto request)
+    public async Task<IActionResult> ExecuteAsync(UpdateRoleRequestDto request)
     {
-        await _usersService.RegisterUserAsync(request);
+        await _usersService.UpdateRoleAsync(request);
 
-        return (new object()).ToHttpResponse("User registered successfully", 201);
+        return new object().ToHttpResponse("Role updated successfully", 200);
     }
 }
